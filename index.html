@@ -2,15 +2,43 @@
 <html>
    <head>
       <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <meta name="description" content="Portfolio of Web Developer &amp; Designer - Natnael Meseret">
       <meta name="keywords" content="Natnael, Natnael Meseret, Web Developer, Freelance, Ethiopia, Addis Ababa, Nati">
       <title>Natnael Meseret</title>
       <link rel="stylesheet" href="css/master.css">
+      <style type="text/css">
+         #mesg {
+           display: none !important;
+         }
+         @media screen and (max-width:480px){
+            .wrapper {
+              display:none !important
+            }
+            body {
+              display:flex !important;
+              align-items:center !important;
+              height:400px !important;
+              text-align:center !important
+            }
+            #mesg {
+              display:block !important;
+              width: 80%;
+              margin: 150px auto;
+              text-align: left;
+              font-family: 'Do Hyeon',mono;
+              font-size: 32px;
+              font-style: italic;
+              color: #ed7451
+            }
+         }
+      </style>
    </head>
    <body>
 
       <div class="wrapper" id="wrapper">
+
          <div class="top-section">
             <div class="logo"></div>
             <ul class="links">
@@ -22,13 +50,7 @@
             </ul>
          </div>
 
-         <div class="msg">
-            <p><span>Please</span> visit my portfolio with a larger screen </p>
-         </div>
-
          <div class="middle-section">
-
-
 
             <div class="section section-1" id="home">
                <div class="cover"></div>
@@ -167,7 +189,7 @@
 
             <div class="bottom-section" id="contact">
 
-               <div class="section section-5">
+               <div class="sectioon section-4">
                   <div class="article article-1">
                      <p>Have an <span>IDEA</span> you want to work on <span>?</span></p>
                      <div class="idea-icon">
@@ -198,14 +220,19 @@
                   </div>
                </div>
 
-<!--                <div class="foot">
-                  <p></p>
-               </div> -->
-
+               <div class="foot">
+                  <p style="line-height: 40px;">&nbsp;</p>
+               </div>
             </div>
          </div>
 
       </div>
+
+
+      <div id="mesg">
+         <p> Please visit my portfolio from a larger device. The Mobile view is under construction. </p>
+      </div>
+
 
       <script type="text/javascript" src="scripts/jquery.min.js"> </script>
       <script type="text/javascript" src="scripts/jsplumb.min.js"> </script>
