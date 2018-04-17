@@ -94,15 +94,15 @@ body {
 }
 .logo {
     z-index: 20;
-    top: 30px;
-    left: calc(50vw - 55px);
+    top: 20px;
+    left: calc(50vw - 35px);
 
     display: block;
 
-    width: 110px;
-    height: 35px;
+    width: 70px;
+    height: 40px;
 
-    background: url(../Logo/logo.svg) no-repeat;
+    background: url(../Logo/logo3.svg) no-repeat;
     background-size: 100% 100%;
 }
 .cover,
@@ -267,9 +267,8 @@ body {
 
     padding: 20px;
 
-    text-align: left;
+    text-align: justify;
     text-indent: 20px;
-    word-break: break-all;
 }
 .section-2,
 .section-3 {
@@ -671,7 +670,7 @@ body {
 
     text-align: center;
 
-    background: linear-gradient(to left,#b6664b 1%,#b65230);
+    background: linear-gradient(to left,#b6664b 1%,#b65230), #b65230;
     box-shadow: 0 0 5px 0 rgba(0,0,0,.4);
 }
 .bottom-section .section-5 {
@@ -708,7 +707,6 @@ body {
 
     text-align: center;
     word-wrap: normal;
-    word-break: keep-all;
 }
 .bottom-section .article-1 p span,
 .contact-field legend {
@@ -762,7 +760,7 @@ fieldset {
 
     color: #333;
     border: unset;
-    background: #fea080;
+    background: #ead1c8;
 }
 #submit {
     font-size: 14px;
@@ -1034,22 +1032,40 @@ fieldset {
 @media screen and (max-width:1024px) {
 
     * {
-        width: unset !important;
-        height: unset !important;
-        max-width: unset !important;
-        max-height: unset !important;
-        min-width: unset !important;
-        min-height: unset !important;
-        top: unset !important;
-        left: unset !important;
-        right: unset !important;
-        bottom: unset !important;
+        width: auto !important;
+        height: auto !important;
+        max-width: auto !important;
+        max-height: auto !important;
+        min-width: auto !important;
+        min-height: auto !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+    }
+    .top-section {
+        width: 85% !important;
+    }
+    .logo {
+        display: inline-block !important;
+        margin: 15px auto;
+        width: 70px !important;
+        height: 40px !important;
+        left: 0px !important;
+        right: 0px !important;
+    }
+    .cover {
+        width: 100% !important;
+        height: 100% !important;
+    }
+    .wrapper {
+        display: block;
     }
     .links {
         display: none !important;
     }
     .section {
-        display: block!important;
+        display: inline-block !important;
         height: unset!important;
         margin-bottom: 20px;
         text-align: center!important;
@@ -1060,9 +1076,13 @@ fieldset {
         height: unset;
         margin: 20px auto;
     }
+    .article header {
+        border: 0px;
+    }
     .section-title {
         position: relative!important;
-        margin-bottom: 50px;
+        margin-bottom: 20px;
+        border: 0px;
     }
 
     /*SECTION 1*/
@@ -1076,10 +1096,12 @@ fieldset {
         height: unset;
         margin-top: 100px;
         text-align: center;
+        padding: 30px 0px 30px 0px !important;
+        height: 100% !important;
     }
     .intro p {
         font-size: 1.3em;
-        background-color: rgba(0,0,0,.1);
+        background-color: rgba(0,0,0,.25);
         text-align: justify;
     }
     .intro p span:hover {
@@ -1102,13 +1124,11 @@ fieldset {
     .circle:nth-child(2) {
         position: relative !important;
         display: inline-block !important;
-        width: 120px;
-        height: 120px;
+        width: 120px !important;
+        height: 120px !important;
         border-width: 0px !important;
+        border-radius: 50%;
         box-shadow: 0 0 10px -5px #000;
-        background-color: rgba(0,0,0,.5) !important;
-        mix-blend-mode: darken !important;
-        background-blend-mode: darken !important;
     }
 
 
@@ -1184,6 +1204,10 @@ fieldset {
     .bottom-section .article {
         float: none;
     }
+    .bottom-section .article-1 .idea-icon {
+        width: 250px !important;
+        height: 250px !important;
+    }
     .bottom-section .article-1 {
         max-width: unset;
         margin: unset;
@@ -1191,8 +1215,23 @@ fieldset {
     #message,
     #name,
     .name-field {
-        width: 85%;
-        max-width: 400px;
+        width: 90% !important;
+        max-width: 400px !important;
+        height: initial !important;
+        min-height: initial !important;
+        max-height: initial !important;
+        padding: 10px !important;
+        margin: 20px auto !important;
+        border: 0px;
+    }
+    #submit {
+        width: 100px!important;
+        height: 40px!important;
+        padding: 5px!important;
+    }
+    #message {
+        height: 150px !important;
+        resize: none;
     }
     .foot {
         position: unset;
@@ -1232,3 +1271,4 @@ fieldset {
         }
     }
 }
+
