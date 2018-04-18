@@ -279,10 +279,10 @@ body {
     align-items: center;
 }
 .section-2 .article-1 {
-    background-image: url(../Vector/Others/des.svg);
+    background-image: url(../Vector/Others/desi.svg);
 }
 .section-2 .article-2 {
-    background-image: url(../Vector/Others/dev.svg);
+    background-image: url(../Vector/Others/deve.svg);
 }
 .section-2 .article {
     position: relative;
@@ -670,7 +670,8 @@ body {
 
     text-align: center;
 
-    background: linear-gradient(to left,#b6664b 1%,#b65230), #b65230;
+    /*background: linear-gradient(to left,#b6664b 1%,#b65230), #b65230;*/
+    background: linear-gradient(to left,#b17746 1%,#b65230), #b65230;
     box-shadow: 0 0 5px 0 rgba(0,0,0,.4);
 }
 .bottom-section .section-5 {
@@ -1065,10 +1066,10 @@ fieldset {
         display: none !important;
     }
     .section {
-        display: inline-block !important;
         height: unset!important;
-        margin-bottom: 20px;
         text-align: center!important;
+
+        display: block !important;
     }
     .section .article {
         display: inline-block;
@@ -1081,15 +1082,21 @@ fieldset {
     }
     .section-title {
         position: relative!important;
-        margin-bottom: 20px;
+        margin: 30px 0px !important;
         border: 0px;
+
+        width: auto !important;
+        display: inline-block !important;
     }
+
 
     /*SECTION 1*/
     .section-1 {
+        display: inline-block !important;
         padding: unset;
         background-position: right;
         min-height: 550px !important;
+        margin-bottom: 20px !important;
     }
     .intro {
         display: block;
@@ -1146,8 +1153,8 @@ fieldset {
     .box {
         position: relative;
         display: inline-block !important;
-        width: 80px !important;
-        height: 120px !important;
+        width: 70px !important;
+        height: 100px !important;
         margin: 10px;
         padding: 0;
     }
@@ -1155,8 +1162,8 @@ fieldset {
         margin-top: 50px;
     }
     .section-3 .article-2 dt {
-        width: 80px !important;
-        height: 120px !important;
+        width: 60px !important;
+        height: 90px !important;
         position: relative !important;
         display: inline-block !important;
     }
@@ -1257,15 +1264,14 @@ fieldset {
     }
 
 
-
     @media screen and (min-width:480px) {
     /*480 - 768*/
 
         
 
-
         @media screen and (min-width:768px) {
         /*768 - 1024*/
+
 
 
         }
