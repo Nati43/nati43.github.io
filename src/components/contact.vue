@@ -6,9 +6,11 @@
             class="border-0 p-0 m-0 rounded-0 flex-grow-1 d-none d-md-flex left-card"
             no-body >
             <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-top px-3 px-md-5 py-5 text-custome-light text-center">
-                <p class="mt-5 pt-5 text text-left">
-                    Have an <span class="title">IDEA</span> you want to work on <span class="title">?</span> <br>
-                </p>
+                <div class="pt-5">
+                    <p class="mt-5 pt-5 text text-left">
+                        Have an <span class="title">IDEA</span> you want to work on <span class="title">?</span> <br>
+                    </p>
+                </div>
             </div>
         </b-card>
 
@@ -48,24 +50,20 @@ export default {
 
 <style scoped>
 .left-card {
-    /* background-color: #212121; */
     background-image: url('../assets/idea_light.svg');
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 40%;
+    background-size: 30%;
     background-blend-mode:luminosity;
     mix-blend-mode: multiply;
 }
 .right-card {
-    /* background-color: #212121; */
     mix-blend-mode: multiply;
-    min-width: 400px;
 }
 .title {
     margin: 0 10px;
     font-size: 35px;
     font-weight: 900;
-    /* color: snow; */
 }
 .text {
     font-size: 25px;
@@ -94,10 +92,6 @@ export default {
     max-width: 400px;
 }
 
-/* Small devices (landscape phones, 576px and up) */
-@media (min-width: 310px) {
-
-}
 
 /* Medium devices (tablets, 768px and down) */
 @media (max-width: 768px) { 
@@ -109,16 +103,8 @@ export default {
 
 /* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) { 
-    
-}
-
-/* Large devices (desktops, 992px and up) */
-@media (min-width: 992px) {
-    
-}
-
-/* Extra large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) {
-
+    .right-card {
+        min-width: 400px;
+    }
 }
 </style>

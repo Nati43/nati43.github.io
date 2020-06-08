@@ -132,9 +132,4 @@ export default {
         font-size: 2rem;
     }
 }
-
-/* Extra large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) {
-
-}
 </style>

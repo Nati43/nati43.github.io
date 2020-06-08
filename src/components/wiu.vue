@@ -17,7 +17,7 @@
         </b-card>
 
         <b-card
-            class="border-0 p-0 m-0 rounded-0 flex-grow-1 d-flex align-items-start justify-content-center d-none d-md-flex"
+            class="border-0 p-0 m-0 rounded-0 flex-grow-1 align-items-start justify-content-center d-none d-md-flex"
             no-body >
             
             <transition name="bounce" >
