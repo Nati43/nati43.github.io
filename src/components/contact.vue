@@ -19,23 +19,21 @@
             no-body >
             <div class="flex-grow-1 d-flex flex-column align-items-center align-items-md-start justify-content-center  py-5 text-left">
                 <P class="text"> Send me a message. </P>
-                <b-form class="contact-form d-flex flex-column">
-                    
+                <form class="contact-form d-flex flex-column" action="https://formspree.io/natnael0meseret@gmail.com" method="POST">
                     <b-form-group id="input-group-1" label="Name:" label-for="input-1" >
-                        <b-form-input id="input-1"  type="email" required placeholder="Name" class="border-0 input"> </b-form-input>
+                        <b-form-input id="input-1" name="name"  type="text" required placeholder="Name" class="border-0 input"> </b-form-input>
                     </b-form-group>
                     
                     <b-form-group id="input-group-2" label="Email address:" label-for="input-2" description="Please use your own email so that I can reach you.">
-                        <b-form-input id="input-2"  type="email" required placeholder="Enter email" class="border-0 input"> </b-form-input>
+                        <b-form-input id="input-2" name="email"  type="email" required placeholder="Enter email" class="border-0 input"> </b-form-input>
                     </b-form-group>
                     
                     <b-form-group id="input-group-3" label="Message:" label-for="input-3">
-                        <b-form-textarea id="input-3" placeholder="Message" rows="5" class="border-0 input"> </b-form-textarea>
+                        <b-form-textarea id="input-3" name="message" placeholder="Message" rows="5" class="border-0 input"> </b-form-textarea>
                     </b-form-group>
 
-                    <b-button variant="outline-primary" class="align-self-center px-4 mb-5 mt-4">Send</b-button>
-                </b-form>
-
+                    <b-button type="submit" variant="outline-primary" class="align-self-center px-4 mb-5 mt-4">Send</b-button>
+                </form>
             </div>
         </b-card>
 
