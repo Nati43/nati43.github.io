@@ -1,5 +1,43 @@
 <template>
-    <p>Contact</p>
+    <div class="p-0 m-0 d-flex flex-row align-items-stretch section">
+
+        <b-card
+            overlay
+            class="border-0 p-0 m-0 rounded-0 flex-grow-1 d-none d-md-flex left-card"
+            no-body >
+            <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-top px-3 px-md-5 py-5 text-custome-light text-center">
+                <p class="mt-5 pt-5 text text-left">
+                    Have an <span class="title">IDEA</span> you want to work on <span class="title">?</span> <br>
+                </p>
+            </div>
+        </b-card>
+
+        <b-card
+            class="border-0 p-0 m-0 rounded-0 flex-grow-1 right-card"
+            no-body >
+            <div class="flex-grow-1 d-flex flex-column align-items-center align-items-md-start justify-content-center  py-5 text-left">
+                <P class="text"> Send me a message. </P>
+                <b-form class="contact-form d-flex flex-column">
+                    
+                    <b-form-group id="input-group-1" label="Name:" label-for="input-1" >
+                        <b-form-input id="input-1"  type="email" required placeholder="Name" class="border-0 input"> </b-form-input>
+                    </b-form-group>
+                    
+                    <b-form-group id="input-group-2" label="Email address:" label-for="input-2" description="Please use your own email so that I can reach you.">
+                        <b-form-input id="input-2"  type="email" required placeholder="Enter email" class="border-0 input"> </b-form-input>
+                    </b-form-group>
+                    
+                    <b-form-group id="input-group-3" label="Message:" label-for="input-3">
+                        <b-form-textarea id="input-3" placeholder="Message" rows="5" class="border-0 input"> </b-form-textarea>
+                    </b-form-group>
+
+                    <b-button variant="outline-primary" class="align-self-center px-4 mb-5 mt-4">Send</b-button>
+                </b-form>
+
+            </div>
+        </b-card>
+
+    </div>
 </template>
 
 <script>
@@ -9,5 +47,78 @@ export default {
 </script>
 
 <style scoped>
+.left-card {
+    /* background-color: #212121; */
+    background-image: url('../assets/idea_light.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 40%;
+    background-blend-mode:luminosity;
+    mix-blend-mode: multiply;
+}
+.right-card {
+    /* background-color: #212121; */
+    mix-blend-mode: multiply;
+    min-width: 400px;
+}
+.title {
+    margin: 0 10px;
+    font-size: 35px;
+    font-weight: 900;
+    /* color: snow; */
+}
+.text {
+    font-size: 25px;
+    mix-blend-mode: multiply;
+}
 
+.input {
+    background-color: #E1E1E1;
+    color: #212121;
+}
+
+.btn-outline-primary {
+    color: #212121;
+    border-color: #E1E1E1;
+    outline-color: #E1E1E1 !important;
+}
+.btn-outline-primary:hover,
+.btn-outline-primary:active,
+.btn-outline-primary:focus {
+    color: #212121;
+    background-color: #E1E1E1;
+}
+
+.contact-form {
+    width: 85%;
+    max-width: 400px;
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 310px) {
+
+}
+
+/* Medium devices (tablets, 768px and down) */
+@media (max-width: 768px) { 
+    .contact-form {
+        width: 85vw;
+        max-width: 400px;
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) { 
+    
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+
+}
 </style>

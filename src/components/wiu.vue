@@ -22,12 +22,12 @@
             
             <transition name="bounce" >
                 <div class="text-left d-flex flex-column align-items-start text-muted details" v-if="selected">
-                    <b-img :src="selected.icon" class="align-self-center my-3"></b-img>
                     <h3 class="name">{{selected.name}}</h3>
                     <p class="description">{{selected.description}}</p>
                     <ul>
                         <li v-for="(point, idx) in selected.points" :key="idx"> {{point}} </li>
                     </ul>
+                    <b-img :src="selected.icon" class="align-self-end my-3"></b-img>
                 </div>
             </transition>
             
@@ -177,7 +177,7 @@ export default {
     transform: scale(0);
   }
   50% {
-    transform: scale(1.5);
+    transform: scale(1.1);
   }
   100% {
     transform: scale(1);
@@ -204,7 +204,7 @@ li {
 }
 .list li {
     font-weight: bold;
-    color: #D1D1D1;
+    color: #B9B9B9;
     cursor: pointer;
     transition: all .125s;
 }
