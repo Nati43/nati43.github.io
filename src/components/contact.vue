@@ -1,5 +1,5 @@
 <template>
-    <div class="p-0 m-0 d-flex flex-row align-items-stretch section">
+    <div id="contact" class="p-0 m-0 d-flex flex-row align-items-stretch section">
 
         <b-card
             overlay

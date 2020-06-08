@@ -20,12 +20,14 @@
                 </div>
                 <div class="icons d-flex align-items-center justify-content-between mt-3">
                     <div class="left">
-                        <div class="icon message"></div>
+                        <b-link class="icon message" href="#contact"></b-link>
                     </div>
                     <div class="right d-flex">
-                        <div class="icon tebta ml-3"></div>
-                        <div class="icon github ml-3"></div>
-                        <div class="icon twitter ml-3"></div>
+                        <!-- <div class="icon tebta ml-3"></div> -->
+                        <!-- <div class="icon github ml-3"></div> -->
+                        <!-- <div class="icon twitter ml-3"></div> -->
+                        <b-link class="icon github ml-3" target="_blank" href="https://github.com/Nati43"></b-link>
+                        <b-link class="icon twitter ml-3" target="_blank" href="https://twitter.com/MeseretNatnael?s=09"></b-link>
                     </div>
                 </div>
             </div>
@@ -41,7 +43,7 @@
 
 <script>
 export default {
-    
+
 }
 </script>
 
@@ -73,6 +75,7 @@ export default {
     max-width: 700px;
 }
 .icon {
+    display: inline-block;
     width: 3rem;
     height: 2.5rem;
     background-position: center;
