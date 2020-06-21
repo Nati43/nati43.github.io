@@ -1,37 +1,47 @@
 <template>
-    <div class="p-0 m-0 d-flex flex-row align-items-stretch section">
+    <div class="p-0 m-0 d-flex flex-column wiu-section vw-100 overflow-hidden">
 
-        <b-card
-            overlay
-            class="border-0 p-0 m-0 rounded-0 flex-grow-1 d-flex align-items-center justify-content-center text-muted text-left list"
-            no-body >
-            <div v-for="(group, idx) in groups" :key="idx">
-                <h4 class="title text-custome-light">{{group.title}}</h4>
-                <div class="pl-3" v-for="(subgroup, idx2) in group.items" :key="idx2">
-                    <h5 class="subtitle text-custome-light">{{subgroup.subtitle}}</h5>
-                    <ul>
-                        <li v-for="(item, idx3) in subgroup.items" :key="idx3" @click="changeSelected(item)" :class="{'active': selected==item}"> {{item.name}} </li>
-                    </ul>
-                </div>
-            </div>
-        </b-card>
+        <div class="py-5 font-weight-bold text-muted">What's in my Toolbox</div>
 
-        <b-card
-            class="border-0 p-0 m-0 rounded-0 flex-grow-1 align-items-start justify-content-center d-none d-md-flex"
-            no-body >
-            
-            <transition name="bounce" >
-                <div class="text-left d-flex flex-column align-items-start text-muted details" v-if="selected">
-                    <h3 class="name">{{selected.name}}</h3>
-                    <p class="description">{{selected.description}}</p>
-                    <ul>
-                        <li v-for="(point, idx) in selected.points" :key="idx"> {{point}} </li>
-                    </ul>
-                    <b-img :src="selected.icon" class="align-self-end my-3"></b-img>
+        <div class="d-flex flex-row align-items-stretch flex-grow-1 pb-3 p-md-0">
+            <b-card
+                overlay
+                class="left border-0 p-0 m-0 rounded-0 flex-grow-1 d-flex align-items-center justify-content-center text-muted text-left list"
+                :class="{'w-hidden': selected}"
+                no-body >
+                <div v-for="(group, idx) in groups" :key="idx" :class="{'d-none d-md-block': selected}">
+                    <h4 class="title text-custome-light">{{group.title}}</h4>
+                    <div class="pl-3" v-for="(subgroup, idx2) in group.items" :key="idx2">
+                        <h5 class="subtitle text-custome-light">{{subgroup.subtitle}}</h5>
+                        <ul>
+                            <li v-for="(item, idx3) in subgroup.items" :key="idx3" @click="changeSelected(item)" :class="{'active': selected==item}">
+                                {{item.name}}
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </transition>
-            
-        </b-card>
+            </b-card>
+
+            <b-card
+                class="right border-0 p-0 m-0 rounded-0 flex-grow-1 justify-content-center d-flex"
+                no-body >
+                
+                <transition name="bounce" >
+                    <div class="text-left d-flex flex-column align-items-start text-muted details shadow py-3 px-5 position-relative" v-if="selected">
+                        <span class="close-btn" @click="selected = null">x</span>
+                        <h3 class="name">{{selected.name}}</h3>
+                        <p class="description">{{selected.description}}</p>
+                        <div class="mx-auto d-flex align-items-center justify-content-between">
+                            <ul class="mr-3">
+                                <li v-for="(point, idx) in selected.points" :key="idx"> {{point}} </li>
+                            </ul>
+                            <b-img :src="selected.icon"></b-img>
+                        </div>
+                    </div>
+                </transition>
+                
+            </b-card>
+        </div>
 
     </div>
 </template>
@@ -154,12 +164,18 @@ export default {
             selected: null,
         }
     },
+    mounted(){
+        if(window.innerWidth > 768)
+            this.selected = this.groups[0].items[0].items[0];
+    },
     methods: {
         changeSelected(obj) {
-            this.selected = null;
-            setTimeout(()=>{
-                this.selected = obj;
-            }, 500);
+            if(this.selected != obj){
+                this.selected = null;
+                setTimeout(()=>{
+                    this.selected = obj;
+                }, 500);
+            }
         }
     }
 }
@@ -183,6 +199,31 @@ export default {
     transform: scale(1);
   }
 }
+.wiu-section {
+    max-width: 100vw;
+    overflow: hidden;
+    background-color: #fff;
+}
+.left {
+    min-width: 100vw;
+}
+.right {
+    align-items: center;
+}
+.w-hidden {
+    min-width: unset;
+    display: none !important;
+}
+.close-btn {
+    position: absolute;
+    right: 2px;
+    top: 0px;
+    transform: scaleX(1.25);
+    cursor: pointer;
+    line-height: 20px;
+    width: 20px;
+    text-align: center;
+}
 .title,
 .subtitle {
     font-weight: 300;
@@ -192,8 +233,10 @@ export default {
     transition: all .25s;
 }
 .details {
+    transition: all .25s;
     max-width: 500px;
     overflow: hidden;
+    width: 90vw;
 }
 .details .name {
     font-weight: 900;
@@ -219,6 +262,20 @@ li {
     font-size: 1.35em;
 }
 
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) { 
+    .wiu-section {
+        min-height: 100vh;
+    }
+    .left {
+        min-width: unset;
+    }
+    .w-hidden {
+        min-width: unset;
+        display: flex !important;
+    }
+}
+
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
     .details {
@@ -226,6 +283,13 @@ li {
     }
     .details .name {
         font-size: 2.25rem;
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    .right {
+        align-items: start;
     }
 }
 </style>

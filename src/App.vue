@@ -22,18 +22,25 @@ export default {
 </script>
 
 <style>
+html {
+  scroll-behavior: smooth;
+}
 #app {
   font-family: 'Lato', Avenir, Helvetica, Arial, sans-serif;;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   background-color: #fcfcfc;
+  text-align: center;
+  max-width: 100vw;
+  overflow: hidden;
 }
 .text-custome-light {
     color: #D1D1D1;
 }
 .section {
   min-height: 100vh;
+  max-width: 100vw;
+  overflow: hidden;
 }
 
 /* Medium devices (tablets, 768px and up) */
