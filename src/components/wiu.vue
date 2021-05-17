@@ -1,41 +1,52 @@
 <template>
-    <div class="p-0 m-0 d-flex flex-column wiu-section vw-100 overflow-hidden">
+    <div class="p-0 pb-5 m-0 d-flex flex-column wiu-section vw-100 overflow-hidden">
 
-        <div class="py-5 font-weight-bold text-muted">What's in my Toolbox</div>
+        <div class="mx-auto">
+            <h1 class="h4 pt-5 font-weight-bold text-muted text-center">My Toolbox</h1>
+
+            <b-list-group class="mx-3 mx-md-5 my-4 d-flex flex-row justify-content-center flex-wrap">
+                <b-list-group-item @click="selectedCategory=0; selected=null;" :active="selectedCategory==0" :class="{'bg-tomato': selectedCategory==0}" class="btn border-0 d-flex flex-row align-items-center my-1 mx-2" style="border-radius: 1em">
+                    <span class="h5 font-weight-bold d-none d-lg-block" :class="{'text-muted': selectedCategory!=0}"> Frontend </span>
+                    <div class="d-flex align-items-center ml-lg-3 bg-white" style="width:4em; height:4em; border-radius:50%;">
+                        <div class="layer-icons" style="background-image: url('/front.svg');" ></div>
+                    </div>
+                </b-list-group-item>
+                <span class="my-auto text-light font-weight-bold bg-light px-5 py-1 rounded"></span>
+                <b-list-group-item @click="selectedCategory=1; selected=null;" :active="selectedCategory==1" :class="{'bg-tomato': selectedCategory==1}" class="btn border-0 d-flex flex-row align-items-center my-1 mx-2" style="border-radius: 1em">
+                    <div class="d-flex align-items-center mr-lg-3 bg-white" style="width:4em; height:4em; border-radius:50%;">
+                        <div class="layer-icons" style="background-image: url('/back.svg');" ></div>
+                    </div>
+                    <span class="h5 font-weight-bold d-none d-lg-block" :class="{'text-muted': selectedCategory!=1}">Backend</span>
+                </b-list-group-item>
+            </b-list-group>
+        </div>
 
         <div class="d-flex flex-row align-items-stretch flex-grow-1 pb-3 p-md-0">
             <b-card
-                overlay
-                class="left border-0 p-0 m-0 rounded-0 flex-grow-1 d-flex align-items-center justify-content-center text-muted text-left list"
-                :class="{'w-hidden': selected}"
-                no-body >
-                <div v-for="(group, idx) in groups" :key="idx" :class="{'d-none d-md-block': selected}">
-                    <h4 class="title text-custome-light">{{group.title}}</h4>
-                    <div class="pl-3" v-for="(subgroup, idx2) in group.items" :key="idx2">
-                        <h5 class="subtitle text-custome-light">{{subgroup.subtitle}}</h5>
-                        <ul>
-                            <li v-for="(item, idx3) in subgroup.items" :key="idx3" @click="changeSelected(item)" :class="{'active': selected==item}">
-                                {{item.name}}
-                            </li>
+                no-body
+                class="left border-0 px-5 py-3 m-0 rounded-0 flex-grow-1 d-flex align-items-md-center justify-content-start text-muted text-left list"
+                :class="{'w-hidden': selected}" >
+                <div>
+                    <div v-for="(item, idx) in items" :key="idx" @click="changeSelected(item)" :class="{'d-none d-md-block': selected}">
+                        <ul v-if="selectedCategory==item.category" class="m-0">
+                            <li :class="{'active': selected==item}">{{item.name}}</li>
                         </ul>
                     </div>
                 </div>
             </b-card>
 
-            <b-card
-                class="right border-0 p-0 m-0 rounded-0 flex-grow-1 justify-content-center d-flex"
-                no-body >
+            <b-card class="right border-0 p-0 m-0 rounded-0 flex-grow-1" body-class="d-flex align-items-start justify-content-center" >
                 
                 <transition name="bounce" >
                     <div class="text-left d-flex flex-column align-items-start text-muted details shadow py-3 px-5 position-relative" v-if="selected">
                         <span class="close-btn" @click="selected = null">x</span>
                         <h3 class="name">{{selected.name}}</h3>
                         <p class="description">{{selected.description}}</p>
-                        <div class="mx-auto d-flex align-items-center justify-content-between">
-                            <ul class="mr-3">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <b-img :src="selected.icon"></b-img>
+                            <ul class="">
                                 <li v-for="(point, idx) in selected.points" :key="idx"> {{point}} </li>
                             </ul>
-                            <b-img :src="selected.icon"></b-img>
                         </div>
                     </div>
                 </transition>
@@ -51,122 +62,106 @@ export default {
     name:"wiu",
     data: ()=>{
         return {
-            groups: [
+            items: [
                 {
-                    title: "Frontend",
-                    items: [
-                        {
-                            subtitle: "Frameworks / Library",
-                            items: [
-                                {
-                                    name: "Vue",
-                                    icon: "/logos/vue.svg",
-                                    description: "Vue is an open-source model–view–viewmodel JavaScript framework for building user interfaces and single-page applications.",
-                                    points: ["Approachable", "Versatile", "Performant"],
-                                },
-                                {
-                                    name: "Angular",
-                                    icon: "/logos/angular.svg",
-                                    description: "Angular is a JavaScript-based open-source front-end web framework mainly maintained by Google and by a community of individuals and corporations to address many of the challenges encountered in developing single-page applications.",
-                                    points: ["Develop across all platforms", "Speed & performance", "Incredible tooling", "Loved by millions"],
-                                },
-                                {
-                                    name: "Bootstrap",
-                                    icon: "/logos/bootstrap.svg",
-                                    description: "Bootstrap is a free and open-source CSS framework directed at responsive, mobile-first front-end web development. It contains CSS- and JavaScript-based design templates for typography, forms, buttons, navigation, and other interface components.",
-                                    points: ["Fast", "Responsive", "Open source", "Extensive prebuilt components"],
-                                },
-                                {
-                                    name: "Electron",
-                                    icon: "/logos/electron.svg",
-                                    description: "Electron is an open-source software framework developed and maintained by GitHub. It allows for the development of desktop GUI applications using web technologies: it combines the Chromium rendering engine and the Node.js runtime.",
-                                    points: ["Used to build many popular desktop apps", "Cross platform", "Open source" ],
-                                },
-                                {
-                                    name: "JQuery",
-                                    icon: "",
-                                    description: "jQuery is a JavaScript library designed to simplify HTML DOM tree traversal and manipulation, as well as event handling, CSS animation, and Ajax.",
-                                    points: ["Write Less, Do More", "Free & Open source", "Lightweight", "Cross-Browser"],
-                                },
-                            ]
-                        },
-                        {
-                            subtitle: "Languages",
-                            items: [
-                                {
-                                    name: "HTML5",
-                                    icon: "",
-                                    description: "HTML5 is a markup language used for structuring and presenting content on the World Wide Web. It was the fifth and last major version of HTML that is a World Wide Web Consortium recommendation.",
-                                    points: [],
-                                },
-                                {
-                                    name: "CSS3",
-                                    icon: "",
-                                    description: "CSS3 is the latest evolution of the Cascading Style Sheets language and aims at extending CSS2.1",
-                                    points: ["Rounded corners", "Shadows", "Gradients", "Transitions or Animations", "Multi-columns, Flexible box or Grid layouts" ],
-                                },
-                                {
-                                    name: "JavaScript",
-                                    icon: "",
-                                    description: "JavaScript (JS) is a lightweight, interpreted, or just-in-time compiled programming language with first-class functions.",
-                                    points: ["Prototype-based", "Multi-paradigm", "Single-threaded", "supports object-oriented, imperative, and declarative styles"],
-                                },
-                                {
-                                    name: "TypeScript",
-                                    icon: "",
-                                    description: "TypeScript is a typed superset of JavaScript that compiles to plain JavaScript.",
-                                    points: ["Open source"],
-                                },
-                            ]
-                        },
-                    ]
+                    name: "Vue",
+                    category: 0,
+                    icon: "/logos/vue.svg",
+                    description: "Vue is an open-source model–view–viewmodel JavaScript framework for building user interfaces and single-page applications.",
+                    points: ["Approachable", "Versatile", "Performant"],
                 },
                 {
-                    title: "Backend",
-                    items: [
-                        {
-                            subtitle: "Languages",
-                            items: [
-                                {
-                                    name: "Go",
-                                    icon: "/logos/gopher.svg",
-                                    description: "Go is a statically typed, compiled programming language designed at Google by Robert Griesemer, Rob Pike, and Ken Thompson. Go is syntactically similar to C, but with memory safety, garbage collection, structural typing, and CSP-style concurrency.",
-                                    points: ["Open source", "Simple", "Reliable", "Efficient", "Concurrent by design"],
-                                },
-                                {
-                                    name: "PHP",
-                                    icon: "",
-                                    description: "PHP is a popular general-purpose scripting language that is especially suited to web development.",
-                                    points: ["Fast", "Flexible", "Pragmatic"],
-                                },
-                            ]
-                        },
-                        {
-                            subtitle: "Frameworks / Library",
-                            items: [
-                                {
-                                    name: "Echo",
-                                    icon: "",
-                                    description: "Echo is a High performance, extensible, minimalist Go web framework created by the company NextApp.",
-                                    points: ["High performance", "Minimalist", "Optimized Router", "Scalable", "Extensible"],
-                                },
-                                {
-                                    name: "Laravel",
-                                    icon: "/logos/laravel.svg",
-                                    description: "Laravel is a free, open-source PHP web framework, created by Taylor Otwell and intended for the development of web applications following the model–view–controller architectural pattern and based on Symfony.",
-                                    points: ["Free & Open source", "Elegant syntax", "Eloquent ORM support", "MVC framework"],
-                                },
-                            ]
-                        },
-                    ]
+                    name: "Angular",
+                    category: 0,
+                    icon: "/logos/angular.svg",
+                    description: "Angular is a JavaScript-based open-source front-end web framework mainly maintained by Google and by a community of individuals and corporations to address many of the challenges encountered in developing single-page applications.",
+                    points: ["Develop across all platforms", "Speed & performance", "Incredible tooling", "Loved by millions"],
+                },
+                {
+                    name: "Bootstrap",
+                    category: 0,
+                    icon: "/logos/bootstrap.svg",
+                    description: "Bootstrap is a free and open-source CSS framework directed at responsive, mobile-first front-end web development. It contains CSS- and JavaScript-based design templates for typography, forms, buttons, navigation, and other interface components.",
+                    points: ["Fast", "Responsive", "Open source", "Extensive prebuilt components"],
+                },
+                {
+                    name: "Electron",
+                    category: 0,
+                    icon: "/logos/electron.svg",
+                    description: "Electron is an open-source software framework developed and maintained by GitHub. It allows for the development of desktop GUI applications using web technologies: it combines the Chromium rendering engine and the Node.js runtime.",
+                    points: ["Used to build many popular desktop apps", "Cross platform", "Open source" ],
+                },
+                {
+                    name: "JQuery",
+                    category: 0,
+                    icon: "/logos/jquery.svg",
+                    description: "jQuery is a JavaScript library designed to simplify HTML DOM tree traversal and manipulation, as well as event handling, CSS animation, and Ajax.",
+                    points: ["Write Less, Do More", "Free & Open source", "Lightweight", "Cross-Browser"],
+                },
+                {
+                    name: "HTML5",
+                    category: 0,
+                    icon: "/logos/html.svg",
+                    description: "HTML5 is a markup language used for structuring and presenting content on the World Wide Web. It was the fifth and last major version of HTML that is a World Wide Web Consortium recommendation.",
+                    points: [],
+                },
+                {
+                    name: "CSS3",
+                    category: 0,
+                    icon: "/logos/css.svg",
+                    description: "CSS3 is the latest evolution of the Cascading Style Sheets language and aims at extending CSS2.1",
+                    points: ["Rounded corners", "Shadows", "Gradients", "Transitions or Animations", "Multi-columns, Flexible box or Grid layouts" ],
+                },
+                {
+                    name: "JavaScript",
+                    category: 0,
+                    icon: "/logos/js.svg",
+                    description: "JavaScript (JS) is a lightweight, interpreted, or just-in-time compiled programming language with first-class functions.",
+                    points: ["Prototype-based", "Multi-paradigm", "Single-threaded", "supports object-oriented, imperative, and declarative styles"],
+                },
+                {
+                    name: "TypeScript",
+                    category: 0,
+                    icon: "/logos/ts.svg",
+                    description: "TypeScript is a typed superset of JavaScript that compiles to plain JavaScript.",
+                    points: ["Open source"],
+                },
+                {
+                    name: "Go",
+                    category: 1,
+                    icon: "/logos/gopher.svg",
+                    description: "Go is a statically typed, compiled programming language designed at Google by Robert Griesemer, Rob Pike, and Ken Thompson. Go is syntactically similar to C, but with memory safety, garbage collection, structural typing, and CSP-style concurrency.",
+                    points: ["Open source", "Simple", "Reliable", "Efficient", "Concurrent by design"],
+                },
+                {
+                    name: "PHP",
+                    category: 1,
+                    icon: "/logos/php.svg",
+                    description: "PHP is a popular general-purpose scripting language that is especially suited to web development.",
+                    points: ["Fast", "Flexible", "Pragmatic"],
+                },
+                {
+                    name: "Echo",
+                    category: 1,
+                    icon: "/logos/echo.svg",
+                    description: "Echo is a High performance, extensible, minimalist Go web framework created by the company NextApp.",
+                    points: ["High performance", "Minimalist", "Optimized Router", "Scalable", "Extensible"],
+                },
+                {
+                    name: "Laravel",
+                    category: 1,
+                    icon: "/logos/laravel.svg",
+                    description: "Laravel is a free, open-source PHP web framework, created by Taylor Otwell and intended for the development of web applications following the model–view–controller architectural pattern and based on Symfony.",
+                    points: ["Free & Open source", "Elegant syntax", "Eloquent ORM support", "MVC framework"],
                 },
             ],
+            selectedCategory: 0,
             selected: null,
         }
     },
     mounted(){
         if(window.innerWidth > 768)
-            this.selected = this.groups[0].items[0].items[0];
+            this.selected = this.items[0];
     },
     methods: {
         changeSelected(obj) {
@@ -174,7 +169,7 @@ export default {
                 this.selected = null;
                 setTimeout(()=>{
                     this.selected = obj;
-                }, 500);
+                }, 250);
             }
         }
     }
@@ -182,6 +177,9 @@ export default {
 </script>
 
 <style scoped>
+.bg-tomato {
+    background-color: #FF7F50;
+}
 .bounce-enter-active {
   animation: bounce-in .5s;
 }
@@ -291,5 +289,16 @@ li {
     .right {
         align-items: start;
     }
+}
+
+.layer-icons {
+    width:4em;
+    height:4em;
+    border-radius:50%;
+    background-size: 75%;
+    background-color: #FFFFFF55 !important;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-blend-mode: color-dodge;
 }
 </style>
