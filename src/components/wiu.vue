@@ -21,10 +21,10 @@
             </b-list-group>
         </div>
 
-        <div class="d-flex flex-row align-items-stretch flex-grow-1 pb-3 p-md-0">
+        <div class="d-flex flex-row align-items-stretch flex-grow-1 pb-3 p-md-0 mx-auto">
             <b-card
                 no-body
-                class="left border-0 px-5 py-3 m-0 rounded-0 flex-grow-1 d-flex align-items-center align-items-md-end mr-5 pr-5 justify-content-center text-muted text-left list"
+                class="left border-0 px-5 py-3 m-0 mx-md-5 rounded-0 flex-grow-1 d-flex align-items-center justify-content-center text-muted text-left list"
                 :class="{'w-hidden': selected}" >
                 <div>
                     <div v-for="(item, idx) in items" :key="idx" @click="changeSelected(item)" :class="{'d-none d-md-block': selected}">
@@ -35,7 +35,10 @@
                 </div>
             </b-card>
 
-            <b-card class="right border-0 p-0 m-0 rounded-0 flex-grow-1 d-flex align-items-center align-items-md-start justify-content-center" body-class="d-flex align-items-center justify-content-center ml-5 pl-5" >
+            <b-card 
+                no-body
+                class="right border-0 p-0 m-0 mx-md-5 rounded-0 flex-grow-1 d-flex align-items-center justify-content-center" 
+                body-class="d-flex align-items-center justify-content-center" >
                 
                 <transition name="bounce" >
                     <div class="text-left d-flex flex-column align-items-start text-muted details shadow py-3 px-5 position-relative" v-if="selected">

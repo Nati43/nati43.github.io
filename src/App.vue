@@ -31,9 +31,9 @@ export default {
         backgroundDuration: 4000,
         backgroundColor: 'rgba(0,0,0,0)',
         // the number of particles
-        number: window.hasOwnProperty('orientation') ? 30: 100,
+        number: window.innerWidth < 768 ? 25:75,
         // animation speed
-        speed: 20
+        speed: 15
     });
   }
 }
