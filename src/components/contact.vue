@@ -1,7 +1,7 @@
 <template>
-    <div id="contact" class="p-0 m-0 d-flex flex-row flex-wrap align-items-stretch section">
+    <div id="contact" class="p-0 m-0 d-flex flex-row flex-wrap align-items-center section overflow-hidden position-relative">
 
-        <b-card bg-variant="transparent" class="border-0 px-5 m-0 rounded-0 flex-grow-1 d-flex left-card" no-body >
+        <b-card bg-variant="transparent" style="z-index:2" class="border-0 px-5 m-0 rounded-0 flex-grow-1 d-flex left-card" no-body >
             <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-start px-3 px-md-5 py-md-5 text-custome-light text-center">
                 <div class="">
                     <p class="mt-4 text text-left">
@@ -45,9 +45,9 @@
             </div>
         </b-card>
 
-        <b-card bg-variant="transparent" class="border-0 p-0 m-0 rounded-0 flex-grow-1 right-card" no-body >
+        <b-card bg-variant="transparent" style="z-index:2" class="border-0 p-0 m-0 rounded-0 flex-grow-1 right-card" no-body >
             <div class="flex-grow-1 d-flex flex-column align-items-center align-items-md-start justify-content-center py-5 text-left">
-                <P class="text mt-4"> Send me a message. </P>
+                <p class="text text-custome-light mt-4"> Tell me about it.. </p>
                 <form class="contact-form d-flex flex-column" action="https://formspree.io/natnael0meseret@gmail.com" method="POST">
                     <b-form-group id="input-group-1" label-for="input-1" >
                         <b-form-input id="input-1" name="name"  type="text" required placeholder="Name" class="border-0 p-4 shadow-sm input"> </b-form-input>
@@ -66,12 +66,14 @@
             </div>
         </b-card>
 
+        <canvas id="nodes"></canvas>
     </div>
 </template>
 
 <script>
+/* eslint-disable */
 export default {
-    
+    mounted() {}
 }
 </script>
 
@@ -85,13 +87,20 @@ export default {
 </style>
 
 <style scoped>
+#nodes {
+    position: absolute;
+    z-index: 0;
+}
+#contact {
+    background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+    position: relative;
+}
 .title {
     font-size: 35px;
     font-weight: 900;
 }
 .text {
     font-size: 25px;
-    mix-blend-mode: multiply;
 }
 
 .input {
@@ -100,7 +109,7 @@ export default {
 }
 
 .btn-outline-primary {
-    color: #212121;
+    color: #E1E1E1;
     border-color: #E1E1E1;
     outline-color: #E1E1E1 !important;
 }

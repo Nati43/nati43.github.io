@@ -5,14 +5,14 @@
             <h1 class="h4 pt-5 font-weight-bold text-muted text-center">My Toolbox</h1>
 
             <b-list-group class="mx-3 mx-md-5 my-4 d-flex flex-row justify-content-center flex-wrap">
-                <b-list-group-item @click="selectedCategory=0; selected=null;" :active="selectedCategory==0" :class="{'bg-tomato': selectedCategory==0}" class="btn border-0 d-flex flex-row align-items-center my-1 mx-2" style="border-radius: 1em">
+                <b-list-group-item @click="selectedCategory=0; changeSelected(items[0]);" :active="selectedCategory==0" :class="{'bg-tomato': selectedCategory==0}" class="btn border-0 d-flex flex-row align-items-center my-1 mx-2" style="border-radius: 1em">
                     <span class="h5 font-weight-bold d-none d-lg-block" :class="{'text-muted': selectedCategory!=0}"> Frontend </span>
                     <div class="d-flex align-items-center ml-lg-3 bg-white" style="width:4em; height:4em; border-radius:50%;">
                         <div class="layer-icons" style="background-image: url('/front.svg');" ></div>
                     </div>
                 </b-list-group-item>
                 <span class="my-auto text-light font-weight-bold bg-light px-5 py-1 rounded"></span>
-                <b-list-group-item @click="selectedCategory=1; selected=null;" :active="selectedCategory==1" :class="{'bg-tomato': selectedCategory==1}" class="btn border-0 d-flex flex-row align-items-center my-1 mx-2" style="border-radius: 1em">
+                <b-list-group-item @click="selectedCategory=1; changeSelected(items[9]);" :active="selectedCategory==1" :class="{'bg-tomato': selectedCategory==1}" class="btn border-0 d-flex flex-row align-items-center my-1 mx-2" style="border-radius: 1em">
                     <div class="d-flex align-items-center mr-lg-3 bg-white" style="width:4em; height:4em; border-radius:50%;">
                         <div class="layer-icons" style="background-image: url('/back.svg');" ></div>
                     </div>
@@ -24,7 +24,7 @@
         <div class="d-flex flex-row align-items-stretch flex-grow-1 pb-3 p-md-0">
             <b-card
                 no-body
-                class="left border-0 px-5 py-3 m-0 rounded-0 flex-grow-1 d-flex align-items-md-center justify-content-start text-muted text-left list"
+                class="left border-0 px-5 py-3 m-0 rounded-0 flex-grow-1 d-flex align-items-center align-items-md-end mr-5 pr-5 justify-content-center text-muted text-left list"
                 :class="{'w-hidden': selected}" >
                 <div>
                     <div v-for="(item, idx) in items" :key="idx" @click="changeSelected(item)" :class="{'d-none d-md-block': selected}">
@@ -35,7 +35,7 @@
                 </div>
             </b-card>
 
-            <b-card class="right border-0 p-0 m-0 rounded-0 flex-grow-1" body-class="d-flex align-items-start justify-content-center" >
+            <b-card class="right border-0 p-0 m-0 rounded-0 flex-grow-1 d-flex align-items-center align-items-md-start justify-content-center" body-class="d-flex align-items-center justify-content-center ml-5 pl-5" >
                 
                 <transition name="bounce" >
                     <div class="text-left d-flex flex-column align-items-start text-muted details shadow py-3 px-5 position-relative" v-if="selected">
@@ -134,6 +134,13 @@ export default {
                     points: ["Open source", "Simple", "Reliable", "Efficient", "Concurrent by design"],
                 },
                 {
+                    name: "Node.js",
+                    category: 1,
+                    // icon: "/logos/gopher.svg",
+                    description: "Node.js is an open-source, cross-platform, back-end JavaScript runtime environment that runs on the V8 engine and executes JavaScript code outside a web browser.",
+                    points: ["Cross-platform compatibility", "Scalable", "Reliable", "Efficient"],
+                },
+                {
                     name: "PHP",
                     category: 1,
                     icon: "/logos/php.svg",
@@ -146,6 +153,13 @@ export default {
                     icon: "/logos/echo.svg",
                     description: "Echo is a High performance, extensible, minimalist Go web framework created by the company NextApp.",
                     points: ["High performance", "Minimalist", "Optimized Router", "Scalable", "Extensible"],
+                },
+                {
+                    name: "Express.js",
+                    category: 1,
+                    // icon: "/logos/echo.svg",
+                    description: "Express.js, or simply Express, is a back end web application framework for Node.js, released as free and open-source software under the MIT License. It is designed for building web applications and APIs. It has been called the de facto standard server framework for Node.js.",
+                    points: ["High performance", "Minimalist"],
                 },
                 {
                     name: "Laravel",

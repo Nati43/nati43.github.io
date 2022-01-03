@@ -1,8 +1,8 @@
 <template>
-    <div class="p-0 m-0 d-flex flex-row align-items-stretch section">
+    <div class="p-0 m-0 d-flex flex-row align-items-stretch section overflow-hidden position-relative" id="intro">
 
-        <b-card
-            overlay
+        <b-card style="z-index:2"
+            bg-variant="transparent"
             class="border-0 p-0 m-0 rounded-0 flex-grow-1 d-flex left-card"
             no-body >
             <div class="flex-grow-1 d-flex flex-column justify-content-end px-3 px-md-5 py-5 text-custome-light text-left">
@@ -45,15 +45,16 @@
             </div>
         </b-card>
 
-        <b-card
+        <b-card style="z-index:2"
             class="border-0 p-0 m-0 rounded-0 flex-grow-1 right-card d-none d-md-flex"
             no-body >
         </b-card>
-
+        <canvas id="nodes-intro"></canvas>
     </div>
 </template>
 
 <script>
+/* eslint-disable */
 export default {
     data: ()=> {
         return {
@@ -89,6 +90,10 @@ export default {
 </script>
 
 <style scoped>
+#nodes-intro {
+    position: absolute;
+    z-index: 0;
+}
 @keyframes smoke1 {
     0% {
         opacity: 1;
@@ -156,7 +161,7 @@ export default {
 .blink {
     animation: blink-caret .75s step-end infinite;
 }
-.left-card {
+#intro {
     background-color: #212121;
 }
 .right-card {
