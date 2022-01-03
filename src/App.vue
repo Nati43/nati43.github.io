@@ -19,22 +19,24 @@ export default {
     Contact,
   },
   mounted() {
-      var nodesjs = new NodesJs({
-        ids: ['nodes', 'nodes-intro'], // container ID
-        width: window.innerWidth, // width
-        height: window.innerHeight, // height
-        particleColor: [255, 255, 255, 0.3], // Particle color
-        lineColor: [255, 255, 255], // Line color
-        // background transition and color options
-        backgroundFrom: [10, 25, 100],
-        backgroundTo: [25, 50, 150],
-        backgroundDuration: 4000,
-        backgroundColor: 'rgba(0,0,0,0)',
-        // the number of particles
-        number: window.innerWidth < 768 ? 25:75,
-        // animation speed
-        speed: 15
-    });
+      if( window.innerWidth > 768 ) {
+        var nodesjs = new NodesJs({
+          ids: ['nodes', 'nodes-intro'], // container ID
+          width: window.innerWidth, // width
+          height: window.innerHeight, // height
+          particleColor: [255, 255, 255, 0.3], // Particle color
+          lineColor: [255, 255, 255], // Line color
+          // background transition and color options
+          backgroundFrom: [10, 25, 100],
+          backgroundTo: [25, 50, 150],
+          backgroundDuration: 4000,
+          backgroundColor: 'rgba(0,0,0,0)',
+          // the number of particles
+          number: 75,
+          // animation speed
+          speed: 15
+        });
+      }
   }
 }
 </script>

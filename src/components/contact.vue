@@ -1,7 +1,7 @@
 <template>
     <div id="contact" class="p-0 m-0 d-flex flex-row flex-wrap align-items-center section overflow-hidden position-relative">
 
-        <b-card bg-variant="transparent" style="z-index:2" class="border-0 px-5 m-0 rounded-0 flex-grow-1 d-flex left-card" no-body >
+        <b-card bg-variant="transparent" style="z-index:2" class="border-0 pt-5 pt-md-0 px-5 m-0 rounded-0 flex-grow-1 d-flex left-card" no-body >
             <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-start px-3 px-md-5 py-md-5 text-custome-light text-center">
                 <div class="">
                     <p class="mt-4 text text-left">

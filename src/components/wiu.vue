@@ -5,14 +5,14 @@
             <h1 class="h4 pt-5 font-weight-bold text-muted text-center">My Toolbox</h1>
 
             <b-list-group class="mx-3 mx-md-5 my-4 d-flex flex-row justify-content-center flex-wrap">
-                <b-list-group-item @click="selectedCategory=0; changeSelected(items[0]);" :active="selectedCategory==0" :class="{'bg-tomato': selectedCategory==0}" class="btn border-0 d-flex flex-row align-items-center my-1 mx-2" style="border-radius: 1em">
+                <b-list-group-item @click="selectedCategory=0; changeSelected((windowWidth>=768) ? items[0]:null);" :active="selectedCategory==0" :class="{'bg-tomato': selectedCategory==0}" class="btn border-0 d-flex flex-row align-items-center my-1 mx-2" style="border-radius: 1em">
                     <span class="h5 font-weight-bold d-none d-lg-block" :class="{'text-muted': selectedCategory!=0}"> Frontend </span>
                     <div class="d-flex align-items-center ml-lg-3 bg-white" style="width:4em; height:4em; border-radius:50%;">
                         <div class="layer-icons" style="background-image: url('/front.svg');" ></div>
                     </div>
                 </b-list-group-item>
                 <span class="my-auto text-light font-weight-bold bg-light px-5 py-1 rounded"></span>
-                <b-list-group-item @click="selectedCategory=1; changeSelected(items[9]);" :active="selectedCategory==1" :class="{'bg-tomato': selectedCategory==1}" class="btn border-0 d-flex flex-row align-items-center my-1 mx-2" style="border-radius: 1em">
+                <b-list-group-item @click="selectedCategory=1; changeSelected((windowWidth>=768) ? items[9]:null);" :active="selectedCategory==1" :class="{'bg-tomato': selectedCategory==1}" class="btn border-0 d-flex flex-row align-items-center my-1 mx-2" style="border-radius: 1em">
                     <div class="d-flex align-items-center mr-lg-3 bg-white" style="width:4em; height:4em; border-radius:50%;">
                         <div class="layer-icons" style="background-image: url('/back.svg');" ></div>
                     </div>
@@ -174,6 +174,7 @@ export default {
             ],
             selectedCategory: 0,
             selected: null,
+            windowWidth: window.innerWidth,
         }
     },
     mounted(){
