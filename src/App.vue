@@ -32,7 +32,7 @@ export default {
           backgroundDuration: 4000,
           backgroundColor: 'rgba(0,0,0,0)',
           // the number of particles
-          number: 75,
+          number: Number.parseInt((window.screen.height * window.devicePixelRatio)/20),
           // animation speed
           speed: 15
         });
