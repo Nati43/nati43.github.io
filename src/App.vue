@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <Intro />
+    <Experience />
     <Wiu />
     <Contact />
   </div>
@@ -9,6 +10,7 @@
 <script>
 /* eslint-disable */
 import Intro from './components/intro.vue'
+import Experience from './components/experience.vue'
 import Wiu from './components/wiu.vue'
 import Contact from './components/contact.vue'
 export default {
@@ -16,12 +18,13 @@ export default {
   components: {
     Intro,
     Wiu,
+    Experience,
     Contact,
   },
   mounted() {
       if( window.innerWidth > 768 ) {
         var nodesjs = new NodesJs({
-          ids: ['nodes', 'nodes-intro'], // container ID
+          ids: ['nodes'], // container ID
           width: window.innerWidth, // width
           height: window.innerHeight, // height
           particleColor: [255, 255, 255, 0.3], // Particle color

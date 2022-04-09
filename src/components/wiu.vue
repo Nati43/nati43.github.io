@@ -2,7 +2,7 @@
     <div class="p-0 pb-5 m-0 d-flex flex-column wiu-section vw-100 overflow-hidden">
 
         <div class="mx-auto">
-            <h1 class="h4 pt-5 font-weight-bold text-muted text-center">My Toolbox</h1>
+            <h1 class="h4 pt-5 font-weight-bold text-muted text-center">Toolbox</h1>
 
             <b-list-group class="mx-3 mx-md-5 my-4 d-flex flex-row justify-content-center flex-wrap">
                 <b-list-group-item @click="selectedCategory=0; changeSelected((windowWidth>=768) ? items[0]:null);" :active="selectedCategory==0" :class="{'bg-tomato': selectedCategory==0}" class="btn border-0 d-flex flex-row align-items-center my-1 mx-2" style="border-radius: 1em">
@@ -139,7 +139,7 @@ export default {
                 {
                     name: "Node.js",
                     category: 1,
-                    // icon: "/logos/gopher.svg",
+                    icon: "/logos/node.svg",
                     description: "Node.js is an open-source, cross-platform, back-end JavaScript runtime environment that runs on the V8 engine and executes JavaScript code outside a web browser.",
                     points: ["Cross-platform compatibility", "Scalable", "Reliable", "Efficient"],
                 },
