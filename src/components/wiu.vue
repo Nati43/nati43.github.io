@@ -2,17 +2,17 @@
     <div class="p-0 pb-5 m-0 d-flex flex-column wiu-section vw-100 overflow-hidden">
 
         <div class="mx-auto">
-            <h1 class="h4 pt-5 font-weight-bold text-muted text-center">Toolbox</h1>
+            <h1 class="title-large py-5 my-5 text-muted text-center">Toolbox</h1>
 
             <b-list-group class="mx-3 mx-md-5 my-4 d-flex flex-row justify-content-center flex-wrap">
-                <b-list-group-item @click="selectedCategory=0; changeSelected((windowWidth>=768) ? items[0]:null);" :active="selectedCategory==0" :class="{'bg-tomato': selectedCategory==0}" class="btn border-0 d-flex flex-row align-items-center my-1 mx-2" style="border-radius: 1em">
+                <b-list-group-item @click="selectedCategory=0; changeSelected((windowWidth>=768) ? items[0]:null);" :active="selectedCategory==0" :class="{'bg-custom-grey': selectedCategory==0}" class="btn border-0 d-flex flex-row align-items-center my-1 mx-2" style="border-radius: 1em">
                     <span class="h5 font-weight-bold d-none d-lg-block" :class="{'text-muted': selectedCategory!=0}"> Frontend </span>
                     <div class="d-flex align-items-center ml-lg-3 bg-white" style="width:4em; height:4em; border-radius:50%;">
                         <div class="layer-icons" style="background-image: url('/front.svg');" ></div>
                     </div>
                 </b-list-group-item>
                 <span class="my-auto text-light font-weight-bold bg-light px-5 py-1 rounded"></span>
-                <b-list-group-item @click="selectedCategory=1; changeSelected((windowWidth>=768) ? items[9]:null);" :active="selectedCategory==1" :class="{'bg-tomato': selectedCategory==1}" class="btn border-0 d-flex flex-row align-items-center my-1 mx-2" style="border-radius: 1em">
+                <b-list-group-item @click="selectedCategory=1; changeSelected((windowWidth>=768) ? items[9]:null);" :active="selectedCategory==1" :class="{'bg-custom-grey': selectedCategory==1}" class="btn border-0 d-flex flex-row align-items-center my-1 mx-2" style="border-radius: 1em">
                     <div class="d-flex align-items-center mr-lg-3 bg-white" style="width:4em; height:4em; border-radius:50%;">
                         <div class="layer-icons" style="background-image: url('/back.svg');" ></div>
                     </div>
@@ -195,8 +195,12 @@ export default {
 </script>
 
 <style scoped>
-.bg-tomato {
-    background-color: #FF7F50;
+.title-large {
+    font-size: 36px;
+    font-weight: 900;
+}
+.bg-custom-grey {
+    background-color: #555;
 }
 .bounce-enter-active {
   animation: bounce-in .5s;

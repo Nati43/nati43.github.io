@@ -2,7 +2,7 @@
     <div class="p-0 pb-5 m-0 d-flex flex-column wiu-section vw-100 overflow-hidden">
 
         <div class="mx-auto">
-            <h1 class="h4 pt-5 font-weight-bold text-muted text-center">Adventure</h1>
+            <h1 class="title-large pt-3 pt-md-5 mt-3 mt-md-5 text-muted text-center"> Experience </h1>
 
             <div class="my-5 d-flex flex-column flex-md-row align-items-stretch">
 
@@ -198,6 +198,10 @@ export default {
     max-width: 100vw;
     overflow: auto;
 }
+.title-large {
+    font-size: clamp(38px, 3.25vw, 52px);
+    font-weight: 900;
+}
 .title {
     font-size: 1.2em;
     font-weight: 900;
@@ -211,8 +215,8 @@ export default {
     line-height: 1.75em;
 }
 .role-container ul li::before {
-    content: "➜";
-    color: #ccc;
+    content: "\2022";
+    color: #6c757d;
     position: absolute;
     left: -1.5em;
 }

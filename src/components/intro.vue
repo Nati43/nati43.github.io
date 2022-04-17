@@ -6,8 +6,13 @@
             class="border-0 p-0 m-0 rounded-0 flex-grow-1 d-flex left-card"
             no-body >
             <div class="flex-grow-1 d-flex flex-column justify-content-end px-3 px-md-5 py-5 text-custome-light text-left">
-                <small class="my-2 h4" style="color: #FF7F50; font-weight: 300;"> Hi, my name is </small>
-                <b-card-title class="title mb-4">Natnael Meseret.</b-card-title>
+                <div class="d-flex align-items-center">
+                    <div>
+                        <small class="my-2 h4" style="color: #FF7F50; font-weight: 300;"> Hi, my name is </small>
+                        <b-card-title class="title mb-4">Natnael Meseret.</b-card-title>
+                    </div>
+                    <div class="avatar shadow-sm mr-3 d-md-none"></div>
+                </div>
                 <small class="mb-2 h4" style="color: #FF7F50; font-weight: 300;">I'm a</small>
                 <b-card-title class="title-2 mb-4">Software Engineer.</b-card-title>
                 <div class="subtitle mb-md-4 mt-3">
@@ -33,17 +38,18 @@
                     to innovate and boost my game.
                 </div>
                 
-                <div class="avatar-container d-md-none my-3 d-flex align-items-center justify-content-between">
+                <div class="avatar-container d-md-none my-3 mt-5 d-flex align-items-center justify-content-between">
                     <b-link class="icon github ml-3" target="_blank" href="https://github.com/Nati43"></b-link>
                     <b-link class="icon linkedin ml-3" target="_blank" href="https://www.linkedin.com/in/natnael-meseret-a195b8141"></b-link>
-                    <b-link class="icon message ml-4" href="#contact"></b-link>
-                    <div class="avatar shadow-sm ml-auto"></div>
+                    <b-link class="icon message ml-3" href="#contact"></b-link>
+                    <b-link class="icon pdf ml-4 mr-3" target="_blank" href="/Resume.pdf"></b-link>
                 </div>
                 <div class="icons d-flex align-items-center justify-content-between mt-5">
                     <div class="left">
                         <b-link class="icon message" href="#contact"></b-link>
                     </div>
                     <div class="right d-flex">
+                        <b-link class="icon pdf ml-3" target="_blank" href="/Resume.pdf"></b-link>
                         <b-link class="icon github ml-3" target="_blank" href="https://github.com/Nati43"></b-link>
                         <b-link class="icon linkedin ml-3" target="_blank" href="https://www.linkedin.com/in/natnael-meseret-a195b8141"></b-link>
                     </div>
@@ -55,7 +61,6 @@
             class="border-0 p-0 m-0 rounded-0 flex-grow-1 right-card d-none d-md-flex"
             no-body >
         </b-card>
-        <b-link class="icon pdf" target="_blank" href="/Resume.pdf"></b-link>
     </div>
 </template>
 
@@ -226,9 +231,6 @@ export default {
     background-size: 60%;
     background-color: #ccc;
     border-radius: 50%;
-    position: absolute;
-    top: 2em;
-    right: 2em;
     z-index: 10;
     transform-origin: bottom;
     animation-name: elastic-bounce;
@@ -274,11 +276,6 @@ export default {
     }
     .name {
         width: 100%;
-    }
-    .pdf {
-        top: unset;
-        bottom: 3em;
-        right: 3em;
     }
 }
 

@@ -61,7 +61,7 @@
                         <b-form-textarea id="input-3" name="message" placeholder="Message" rows="5" class="border-0 p-4 shadow-sm input"> </b-form-textarea>
                     </b-form-group>
 
-                    <b-button type="submit" variant="outline-primary" class="align-self-center font-weight-bold px-4 mt-4">Send</b-button>
+                    <b-button type="submit" variant="outline-primary" class="align-self-end py-2 px-5 font-weight-bold px-4 mt-4">Send</b-button>
                 </form>
             </div>
         </b-card>
@@ -92,7 +92,7 @@ export default {
     z-index: 0;
 }
 #contact {
-    background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+    background: #212121;
     position: relative;
 }
 .title {
@@ -104,8 +104,8 @@ export default {
 }
 
 .input {
-    background-color: #fff;
-    color: #212121;
+    background-color: #fff1;
+    color: #fff;
 }
 
 .btn-outline-primary {

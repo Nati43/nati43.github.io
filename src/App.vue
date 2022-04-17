@@ -2,6 +2,7 @@
   <div id="app">
     <Intro />
     <Experience />
+    <Projects />
     <Wiu />
     <Contact />
   </div>
@@ -13,6 +14,7 @@ import Intro from './components/intro.vue'
 import Experience from './components/experience.vue'
 import Wiu from './components/wiu.vue'
 import Contact from './components/contact.vue'
+import Projects from './components/projects.vue'
 export default {
   name: 'App',
   components: {
@@ -20,11 +22,13 @@ export default {
     Wiu,
     Experience,
     Contact,
+    Projects,
   },
   mounted() {
       if( window.innerWidth > 768 ) {
         var nodesjs = new NodesJs({
-          ids: ['nodes'], // container ID
+          // ids: ['nodes'], // container ID
+          ids: [], // container ID
           width: window.innerWidth, // width
           height: window.innerHeight, // height
           particleColor: [255, 255, 255, 0.3], // Particle color
