@@ -101,10 +101,6 @@ export default {
 </script>
 
 <style scoped>
-#nodes-intro {
-    position: absolute;
-    z-index: 0;
-}
 @keyframes smoke1 {
     0% {
         opacity: 1;

@@ -66,7 +66,6 @@
             </div>
         </b-card>
 
-        <canvas id="nodes"></canvas>
     </div>
 </template>
 
@@ -87,10 +86,6 @@ export default {
 </style>
 
 <style scoped>
-#nodes {
-    position: absolute;
-    z-index: 0;
-}
 #contact {
     background: #212121;
     position: relative;
