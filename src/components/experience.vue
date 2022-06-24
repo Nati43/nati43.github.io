@@ -199,7 +199,7 @@ export default {
     overflow: auto;
 }
 .title-large {
-    font-size: clamp(38px, 3.25vw, 52px);
+    font-size: clamp(38px, 2.5vw, 52px);
     font-weight: 900;
 }
 .title {

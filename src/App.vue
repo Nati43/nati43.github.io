@@ -33,7 +33,7 @@ html {
   scroll-behavior: smooth;
 }
 #app {
-  font-family: 'Lato', Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #fcfcfc;

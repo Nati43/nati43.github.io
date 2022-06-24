@@ -3,10 +3,18 @@
 
         <div class="d-flex flex-row flex-wrap"> 
             <div class="left-box d-flex flex-grow-1">
-                <h1 class="py-3 py-md-5 my-3 my-md-5 ml-auto title-large text-white"> Pro </h1>
+                <h1 class="pt-3 pt-md-5 mt-3 mt-md-5 ml-auto title-large text-white"> Pro </h1>
             </div>
             <div class="right-box d-flex flex-grow-1">
-                <h1 class="py-3 py-md-5 my-3 my-md-5 mr-auto title-large text-white"> jects </h1>
+                <h1 class="pt-3 pt-md-5 mt-3 mt-md-5 mr-auto title-large text-white"> ject </h1>
+            </div>
+        </div>
+        <div class="d-flex flex-row flex-wrap"> 
+            <div class="left-box d-flex flex-grow-1">
+                <h1 class="pb-3 pb-md-5 mb-3 mb-md-5 ml-auto title-large text-white"> high </h1>
+            </div>
+            <div class="right-box d-flex flex-grow-1">
+                <h1 class="pb-3 pb-md-5 mb-3 mb-md-5 mr-auto title-large text-white"> lights </h1>
             </div>
         </div>
 
@@ -112,7 +120,7 @@ export default {
     background-color: #FF7F50;
 }
 .title-large {
-    font-size: clamp(38px, 3.25vw, 52px);
+    font-size: clamp(38px, 2.5vw, 52px);
     font-weight: 900;
 }
 .title {

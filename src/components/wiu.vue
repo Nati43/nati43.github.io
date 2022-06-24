@@ -2,184 +2,183 @@
     <div class="p-0 pb-5 m-0 d-flex flex-column wiu-section vw-100 overflow-hidden">
 
         <div class="mx-auto">
-            <h1 class="title-large py-5 my-5 text-muted text-center">Toolbox</h1>
-
-            <b-list-group class="mx-3 mx-md-5 my-4 d-flex flex-row justify-content-center flex-wrap">
-                <b-list-group-item @click="selectedCategory=0; changeSelected((windowWidth>=768) ? items[0]:null);" :active="selectedCategory==0" :class="{'bg-custom-grey': selectedCategory==0}" class="btn border-0 d-flex flex-row align-items-center my-1 mx-2" style="border-radius: 1em">
-                    <span class="h5 font-weight-bold d-none d-lg-block" :class="{'text-muted': selectedCategory!=0}"> Frontend </span>
-                    <div class="d-flex align-items-center ml-lg-3 bg-white" style="width:4em; height:4em; border-radius:50%;">
-                        <div class="layer-icons" style="background-image: url('/front.svg');" ></div>
-                    </div>
-                </b-list-group-item>
-                <span class="my-auto text-light font-weight-bold bg-light px-5 py-1 rounded"></span>
-                <b-list-group-item @click="selectedCategory=1; changeSelected((windowWidth>=768) ? items[9]:null);" :active="selectedCategory==1" :class="{'bg-custom-grey': selectedCategory==1}" class="btn border-0 d-flex flex-row align-items-center my-1 mx-2" style="border-radius: 1em">
-                    <div class="d-flex align-items-center mr-lg-3 bg-white" style="width:4em; height:4em; border-radius:50%;">
-                        <div class="layer-icons" style="background-image: url('/back.svg');" ></div>
-                    </div>
-                    <span class="h5 font-weight-bold d-none d-lg-block" :class="{'text-muted': selectedCategory!=1}">Backend</span>
-                </b-list-group-item>
-            </b-list-group>
+            <h1 class="title-large pt-5 mt-5 pb-3 mb-3 pb-md-5 mb-md-5 text-muted text-center">Toolbox</h1>
         </div>
 
-        <div class="d-flex flex-row align-items-stretch flex-grow-1 pb-3 p-md-0 mx-auto">
-            <b-card
-                no-body
-                class="left border-0 px-5 py-3 m-0 mx-md-5 rounded-0 flex-grow-1 d-flex align-items-center justify-content-center text-muted text-left list"
-                :class="{'w-hidden': selected}" >
-                <div>
-                    <div v-for="(item, idx) in items" :key="idx" @click="changeSelected(item)" :class="{'d-none d-md-block': selected}">
-                        <ul v-if="selectedCategory==item.category" class="m-0">
-                            <li :class="{'active': selected==item}">{{item.name}}</li>
-                        </ul>
+        <div class="d-flex flex-row align-items-start justify-content-center flex-grow-1 pb-3 p-md-0 mx-auto">
+            <div v-if="!loadingToolbox" class="d-flex flex-column flex-md-row align-items-stretch">
+                <div class="flex-grow-1 d-flex flex-row flex-md-column flex-wrap border-right mw-md-30">
+                    <div class="flex-grow-1 d-flex flex-column algin-items-center p-4 border-bottom">
+                        <!-- Frontend -->
+                        <p class="font-weight-bold text-muted small mx-auto">Frontend</p>
+                        <div class="d-flex flex-row flex-wrap justify-content-center" >
+                            <div v-for="(item, idx) in items.filter(x => x.category == categories['Frontend'])"
+                                :key="idx" @click="changeSelected(item)"  >
+                                    <div 
+                                        class="bg-light highlights py-2 px-3 m-2 text-muted btn" 
+                                        :class="{'active-chip': selected==item}"
+                                        style="border-radius: 2em;" >
+                                        <span class="h6 font-weight-bold">
+                                            {{ item.name }}
+                                        </span>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 d-flex flex-column algin-items-center p-4 border-bottom">
+                        <!-- Backend -->
+                        <p class="font-weight-bold text-muted small mx-auto">Backend</p>
+                        <div class="d-flex flex-row flex-wrap justify-content-center" >
+                            <div v-for="(item, idx) in items.filter(x => x.category == categories['Backend'])"
+                                :key="idx" @click="changeSelected(item)"  >
+                                    <div 
+                                        class="bg-light highlights py-2 px-3 m-2 text-muted btn" 
+                                        :class="{'active-chip': selected==item}"
+                                        style="border-radius: 2em;" >
+                                        <span class="h6 font-weight-bold">
+                                            {{ item.name }}
+                                        </span>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 d-flex flex-column algin-items-center p-4 border-bottom border-md-0">
+                        <!-- Database -->
+                        <p class="font-weight-bold text-muted small mx-auto">Database</p>
+                        <div class="d-flex flex-row flex-wrap justify-content-center" >
+                            <div v-for="(item, idx) in items.filter(x => x.category == categories['Database'])"
+                                :key="idx" @click="changeSelected(item)"  >
+                                    <div 
+                                        class="bg-light highlights py-2 px-3 m-2 text-muted btn" 
+                                        :class="{'active-chip': selected==item}"
+                                        style="border-radius: 2em;" >
+                                        <span class="h6 font-weight-bold">
+                                            {{ item.name }}
+                                        </span>
+                                    </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </b-card>
-
-            <b-card 
-                no-body
-                class="right border-0 p-0 m-0 mx-md-5 rounded-0 flex-grow-1 d-flex align-items-center justify-content-center" 
-                body-class="d-flex align-items-center justify-content-center" >
-                
+                <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-center p-4 border-right">
+                    <!-- Other -->
+                    <p class="font-weight-bold text-muted small mx-auto">Other</p>
+                    <div class="d-flex flex-md-column flex-wrap justify-content-center px-4" >
+                        <div v-for="(item, idx) in items.filter(x => x.category == categories['Other'])"
+                            :key="idx" @click="changeSelected(item)"  >
+                                <div 
+                                    class="bg-light highlights py-2 px-3 m-2 text-muted btn" 
+                                    :class="{'active-chip': selected==item}"
+                                    style="border-radius: 2em;" >
+                                    <span class="h6 font-weight-bold">
+                                        {{ item.name }}
+                                    </span>
+                                </div>
+                        </div>
+                    </div>
+                </div>
                 <transition name="bounce" >
-                    <div class="text-left d-flex flex-column align-items-start text-muted details shadow py-3 px-5 position-relative" v-if="selected">
+                    <div id="description-box" class="text-left my-auto mx-auto mx-md-5 d-flex flex-column align-items-start text-muted details shadow py-3 px-5 position-relative" v-if="selected">
                         <span class="close-btn" @click="selected = null">x</span>
                         <h3 class="name">{{selected.name}}</h3>
                         <p class="description">{{selected.description}}</p>
                         <div class="d-flex align-items-center justify-content-between">
-                            <b-img :src="selected.icon"></b-img>
+                            <b-img v-if="selected.icon" :src="selected.icon" class="text-muted" style="min-width:100px; min-height:100px;" alt="loading...">
+                                <b-spinner />
+                            </b-img>
                             <ul class="">
                                 <li v-for="(point, idx) in selected.points" :key="idx"> {{point}} </li>
                             </ul>
                         </div>
                     </div>
                 </transition>
-                
-            </b-card>
+            </div>
+            <b-spinner v-else variant="secondary" class="my-5"></b-spinner>
         </div>
 
     </div>
 </template>
 
 <script>
+import { collection, getDocs } from '@firebase/firestore';
+import { getDownloadURL, ref } from '@firebase/storage';
+import { db, storage } from '../firebase/index';
 export default {
     name:"wiu",
     data: ()=>{
         return {
-            items: [
-                {
-                    name: "Vue",
-                    category: 0,
-                    icon: "/logos/vue.svg",
-                    description: "Vue is an open-source model–view–viewmodel JavaScript framework for building user interfaces and single-page applications.",
-                    points: ["Approachable", "Versatile", "Performant"],
-                },
-                {
-                    name: "Angular",
-                    category: 0,
-                    icon: "/logos/angular.svg",
-                    description: "Angular is a JavaScript-based open-source front-end web framework mainly maintained by Google and by a community of individuals and corporations to address many of the challenges encountered in developing single-page applications.",
-                    points: ["Develop across all platforms", "Speed & performance", "Incredible tooling", "Loved by millions"],
-                },
-                {
-                    name: "Bootstrap",
-                    category: 0,
-                    icon: "/logos/bootstrap.svg",
-                    description: "Bootstrap is a free and open-source CSS framework directed at responsive, mobile-first front-end web development. It contains CSS- and JavaScript-based design templates for typography, forms, buttons, navigation, and other interface components.",
-                    points: ["Fast", "Responsive", "Open source", "Extensive prebuilt components"],
-                },
-                {
-                    name: "Electron",
-                    category: 0,
-                    icon: "/logos/electron.svg",
-                    description: "Electron is an open-source software framework developed and maintained by GitHub. It allows for the development of desktop GUI applications using web technologies: it combines the Chromium rendering engine and the Node.js runtime.",
-                    points: ["Used to build many popular desktop apps", "Cross platform", "Open source" ],
-                },
-                {
-                    name: "JQuery",
-                    category: 0,
-                    icon: "/logos/jquery.svg",
-                    description: "jQuery is a JavaScript library designed to simplify HTML DOM tree traversal and manipulation, as well as event handling, CSS animation, and Ajax.",
-                    points: ["Write Less, Do More", "Free & Open source", "Lightweight", "Cross-Browser"],
-                },
-                {
-                    name: "HTML5",
-                    category: 0,
-                    icon: "/logos/html.svg",
-                    description: "HTML5 is a markup language used for structuring and presenting content on the World Wide Web. It was the fifth and last major version of HTML that is a World Wide Web Consortium recommendation.",
-                    points: [],
-                },
-                {
-                    name: "CSS3",
-                    category: 0,
-                    icon: "/logos/css.svg",
-                    description: "CSS3 is the latest evolution of the Cascading Style Sheets language and aims at extending CSS2.1",
-                    points: ["Rounded corners", "Shadows", "Gradients", "Transitions or Animations", "Multi-columns, Flexible box or Grid layouts" ],
-                },
-                {
-                    name: "JavaScript",
-                    category: 0,
-                    icon: "/logos/js.svg",
-                    description: "JavaScript (JS) is a lightweight, interpreted, or just-in-time compiled programming language with first-class functions.",
-                    points: ["Prototype-based", "Multi-paradigm", "Single-threaded", "supports object-oriented, imperative, and declarative styles"],
-                },
-                {
-                    name: "TypeScript",
-                    category: 0,
-                    icon: "/logos/ts.svg",
-                    description: "TypeScript is a typed superset of JavaScript that compiles to plain JavaScript.",
-                    points: ["Open source"],
-                },
-                {
-                    name: "Go",
-                    category: 1,
-                    icon: "/logos/gopher.svg",
-                    description: "Go is a statically typed, compiled programming language designed at Google by Robert Griesemer, Rob Pike, and Ken Thompson. Go is syntactically similar to C, but with memory safety, garbage collection, structural typing, and CSP-style concurrency.",
-                    points: ["Open source", "Simple", "Reliable", "Efficient", "Concurrent by design"],
-                },
-                {
-                    name: "Node.js",
-                    category: 1,
-                    icon: "/logos/node.svg",
-                    description: "Node.js is an open-source, cross-platform, back-end JavaScript runtime environment that runs on the V8 engine and executes JavaScript code outside a web browser.",
-                    points: ["Cross-platform compatibility", "Scalable", "Reliable", "Efficient"],
-                },
-                {
-                    name: "PHP",
-                    category: 1,
-                    icon: "/logos/php.svg",
-                    description: "PHP is a popular general-purpose scripting language that is especially suited to web development.",
-                    points: ["Fast", "Flexible", "Pragmatic"],
-                },
-                {
-                    name: "Echo",
-                    category: 1,
-                    icon: "/logos/echo.svg",
-                    description: "Echo is a High performance, extensible, minimalist Go web framework created by the company NextApp.",
-                    points: ["High performance", "Minimalist", "Optimized Router", "Scalable", "Extensible"],
-                },
-                {
-                    name: "Express.js",
-                    category: 1,
-                    // icon: "/logos/echo.svg",
-                    description: "Express.js, or simply Express, is a back end web application framework for Node.js, released as free and open-source software under the MIT License. It is designed for building web applications and APIs. It has been called the de facto standard server framework for Node.js.",
-                    points: ["High performance", "Minimalist"],
-                },
-                {
-                    name: "Laravel",
-                    category: 1,
-                    icon: "/logos/laravel.svg",
-                    description: "Laravel is a free, open-source PHP web framework, created by Taylor Otwell and intended for the development of web applications following the model–view–controller architectural pattern and based on Symfony.",
-                    points: ["Free & Open source", "Elegant syntax", "Eloquent ORM support", "MVC framework"],
-                },
-            ],
-            selectedCategory: 0,
+            items: [],
+            categories: {
+                'Frontend': 0,
+                'Backend': 1,
+                'Database': 2,
+                'Other': 3,
+            },
             selected: null,
             windowWidth: window.innerWidth,
+            loadingToolbox: false,
         }
     },
     mounted(){
-        if(window.innerWidth > 768)
-            this.selected = this.items[0];
+        let self = this;
+        self.items = [];
+
+        self.loadingToolbox = true;
+        async function getDocsAndInit() {
+            return getDocs(collection(db, 'toolbox')).then(async (querySnapshot) => {
+                await Promise.all(querySnapshot.docs.map(async (doc) => {
+                    if(doc.data().show) {
+                        if(doc.data().icon) {
+                            try {
+                                let url = await getDownloadURL(ref(storage, 'icons/'+doc.data().icon+'.svg'));
+                                self.items.push ({
+                                    name: doc.data().name,
+                                    category: doc.data().category,
+                                    icon: url,
+                                    description: doc.data().description,
+                                    points: doc.data().points,
+                                    order: doc.data().order,
+                                });
+                            } catch (error) {
+                                self.items.push ({
+                                    name: doc.data().name,
+                                    category: doc.data().category,
+                                    description: doc.data().description,
+                                    points: doc.data().points,
+                                    order: doc.data().order,
+                                });
+                            }
+                        } else {
+                            self.items.push ({
+                                name: doc.data().name,
+                                category: doc.data().category,
+                                description: doc.data().description,
+                                points: doc.data().points,
+                                order: doc.data().order,
+                            });
+                        }
+                    }
+                }));
+            }).catch(error => {
+                console.log('Toolbox query error: ', error);
+            });
+        }
+
+        getDocsAndInit().then(()=>{
+            self.items.sort((a,b)=> {
+                if ( a.order < b.order )
+                    return -1;
+                if ( a.order > b.order )
+                    return 1;
+                return 0;
+            });
+            self.loadingToolbox = false;
+            self.$forceUpdate();
+            setTimeout(()=>{
+                if(window.innerWidth > 768)
+                    self.selected = self.items[0];
+            }, 250);
+        });
     },
     methods: {
         changeSelected(obj) {
@@ -187,6 +186,14 @@ export default {
                 this.selected = null;
                 setTimeout(()=>{
                     this.selected = obj;
+                    this.$forceUpdate();
+                    if(window.innerWidth < 768)
+                        setTimeout(()=>{
+                            window.scrollTo({
+                                top: document.getElementById('description-box').getBoundingClientRect().top + window.pageYOffset - 250,
+                                behavior: 'smooth'
+                            });
+                        }, 50)
                 }, 250);
             }
         }
@@ -196,7 +203,7 @@ export default {
 
 <style scoped>
 .title-large {
-    font-size: 36px;
+    font-size: clamp(38px, 2.5vw, 52px);
     font-weight: 900;
 }
 .bg-custom-grey {
@@ -281,6 +288,10 @@ li {
     list-style:outside;
     font-size: 1.35em;
 }
+.active-chip {
+    color: #fff !important;
+    background-color: #FF7F50 !important;
+}
 
 /* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) { 
@@ -293,6 +304,12 @@ li {
     .w-hidden {
         min-width: unset;
         display: flex !important;
+    }
+    .border-md-0 {
+        border: 0 !important;
+    }
+    .mw-md-30 {
+        max-width: 30vw;
     }
 }
 
