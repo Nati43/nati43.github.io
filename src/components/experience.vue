@@ -19,7 +19,7 @@
 
                 <div class="details-container mx-4" style="min-width: 40vw;">
                     <transition name="bounce">
-                        <div v-if="selected != null">
+                        <div v-if="selected != null && experiences[selected] != null">
                             <div class="role-container"
                                 v-for="(role, idx) in experiences[selected].roles"
                                 :key="idx" >
@@ -27,10 +27,14 @@
                                 <div class="text-left card shadow-sm p-4 my-3 border-0">
                                     <div>
                                         <p class="title"> {{role.title}} </p>
-                                        <p class="font-weight-bold text-muted small"> {{role.start}} - {{role.end}} </p>
+                                        <p class="font-weight-bold text-muted small"> {{role.start}} - {{role.end}} <span class="font-italic px-2 font-weight-bold " v-if="role.type"> ({{role.type}}) </span> </p>
                                         <p class="text-muted small" v-if="experiences[selected].fullCompanyName"> {{experiences[selected].companyName}} ({{experiences[selected].fullCompanyName}}) </p>
                                     </div>
-                                    <ul>
+                                    <div v-if="role.pendingDetails">
+                                        <span class="pending-container h6 font-weight-bold" style="color:#FF7F50;"></span>
+                                        <span class="font-weight-bold d-inline-block mx-1 blink" style="width: .25em; height: .8em; "></span>
+                                    </div>
+                                    <ul v-else>
                                         <li v-for="(point, idx2) in role.points" :key="idx2"> {{point}} </li>
                                     </ul>
                                     <div class="my-3 d-flex flex-wrap">
@@ -44,7 +48,7 @@
                 </div>
 
             </div>
-            <b-spinner v-else variant="secondary" class="my-5"></b-spinner>
+            <b-spinner v-else variant="secondary" class="my-5 mx-auto"></b-spinner>
         </div>
 
     </div>
@@ -60,6 +64,7 @@ export default {
             loadingExperiences: false,
             experiences: [],
             selected: 0,
+            typed: ["Stay tuned...", "Awesome things are happening.", "Details coming soon."]
         }
     },
     mounted(){
@@ -88,8 +93,10 @@ export default {
             self.loadingExperiences = false;
             self.$forceUpdate();
             setTimeout(()=>{
-                if(window.innerWidth > 768)
-                    self.selected = self.experiences[0];
+                if(window.innerWidth > 768) {
+                    self.selected = 0;
+                    self.checkPending();
+                }
             }, 250);
         });
     },
@@ -99,10 +106,36 @@ export default {
                 this.selected = null;
                 setTimeout(()=>{
                     this.selected = idx;
+                    setTimeout(()=>{
+                        this.checkPending();
+                    }, 1000);
                 }, 50);
             }
+        },
+        checkPending() {
+            let item = 0;
+            document.querySelectorAll('.pending-container').forEach(el => {
+                this.typeWriter(el, item);
+            });
+        },
+        typeWriter(el, item) {
+            if (el.innerHTML.length < this.typed[item].length) {
+                el.innerHTML += this.typed[item].charAt(el.innerHTML.length);
+                setTimeout(this.typeWriter.bind(null, el, item), 100);
+            }else{
+                setTimeout(this.clear.bind(null, el, item), 3000);
+            }
+        },
+        clear(el, item) {
+            if (el.innerHTML.length > 0) {
+                el.innerHTML = el.innerHTML.substring(0, el.innerHTML.length-1);
+                setTimeout(this.clear.bind(null, el, item), 50);
+            }else{
+                item++;
+                if(item>this.typed.length-1) item=0;
+                setTimeout(this.typeWriter.bind(null, el, item), 100);
+            }
         }
-        
     }
 }
 </script>
@@ -200,5 +233,12 @@ export default {
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
     
+}
+@keyframes blink-caret {
+  from, to { background-color: transparent }
+  50% { background-color: #FF7F50; }
+}
+.blink {
+    animation: blink-caret .75s step-end infinite;
 }
 </style>
