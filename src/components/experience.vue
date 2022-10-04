@@ -95,10 +95,10 @@ export default {
             setTimeout(()=>{
                 if(window.innerWidth > 768) {
                     self.selected = 0;
-                    setTimeout(()=>{
-                        self.checkPending();
-                    }, 1000);
                 }
+                setTimeout(()=>{
+                    self.checkPending();
+                }, 1000);
             }, 250);
         });
     },
