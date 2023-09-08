@@ -69,7 +69,11 @@
 export default {
     data: ()=> {
         return {
-            typed: ["building something great.", "writing efficient code.", "coming up with innovative solutions."]
+            typed: [
+                "building something great.", 
+                "writing efficient code.", 
+                "coming up with innovative solutions.",
+            ]
         }
     },
     mounted() {
