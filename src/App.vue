@@ -43,6 +43,61 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Default Theme (:root defaults to Tokyo Night) */
+:root {
+  --app-bg: #1a1b26;
+  --intro-bg: #1a1b26;
+  --intro-fg: #a9b1d6;
+  --intro-accent: #7aa2f7;
+  --exp-bg: #1a1b26;
+  --exp-fg: #a9b1d6;
+  --exp-title: #7aa2f7;
+  --exp-card-bg: #24283b;
+  --exp-card-fg: #a9b1d6;
+  --exp-card-border: #2f3549;
+  --exp-sub: #565f89;
+  --exp-tab-active-border: #7aa2f7;
+  --exp-tab-active-bg: #2f3549;
+  --exp-tag-bg: #2f3549;
+  --exp-tag-fg: #7dcfff;
+  --proj-left-bg: #1a1b26;
+  --proj-left-fg: #a9b1d6;
+  --proj-left-title: #7aa2f7;
+  --proj-left-sub: #7dcfff;
+  --proj-left-desc: #787c99;
+  --proj-right-bg: #24283b;
+  --proj-right-title: #f7768e;
+  --proj-btn-border: #7aa2f7;
+  --proj-btn-fg: #7aa2f7;
+  --proj-btn-hover-bg: #7aa2f7;
+  --proj-btn-hover-fg: #1a1b26;
+  --proj-img-bg: #2f3549;
+  --proj-img-border: #414868;
+  --wiu-bg: #1a1b26;
+  --wiu-fg: #a9b1d6;
+  --wiu-title: #7aa2f7;
+  --wiu-sub: #565f89;
+  --wiu-chip-bg: #24283b;
+  --wiu-chip-fg: #a9b1d6;
+  --wiu-chip-border: #2f3549;
+  --wiu-chip-active-bg: #7aa2f7;
+  --wiu-chip-active-fg: #1a1b26;
+  --wiu-box-bg: #24283b;
+  --wiu-box-fg: #a9b1d6;
+  --wiu-box-border: #2f3549;
+  --wiu-box-title: #7dcfff;
+  --contact-bg: #1a1b26;
+  --contact-fg: #a9b1d6;
+  --contact-accent: #7aa2f7;
+  --contact-input-bg: #24283b;
+  --contact-input-fg: #a9b1d6;
+  --contact-input-border: #2f3549;
+  --contact-btn-border: #7aa2f7;
+  --contact-btn-fg: #7aa2f7;
+  --contact-btn-hover-bg: #7aa2f7;
+  --contact-btn-hover-fg: #1a1b26;
+}
+
 /* Original Theme (Black & White split layout with Coral accents) */
 [data-theme="original"] {
   --app-bg: #fcfcfc;
@@ -153,8 +208,8 @@ html {
   --contact-btn-hover-fg: #282a36;
 }
 
-/* Tokyo Night Theme (Default theme - Authentic Tokyo Night Elixir syntax palette: Electric Blue #7aa2f7, Ice Cyan #7dcfff, Steel #a9b1d6, Neon Rose #f7768e) */
-:root, [data-theme="tokyo-night"] {
+/* Tokyo Night Theme (Authentic Tokyo Night Elixir syntax palette: Electric Blue #7aa2f7, Ice Cyan #7dcfff, Steel #a9b1d6, Neon Rose #f7768e) */
+[data-theme="tokyo-night"] {
   --app-bg: #1a1b26;
   --intro-bg: #1a1b26;
   --intro-fg: #a9b1d6;

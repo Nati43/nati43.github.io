@@ -153,12 +153,12 @@ export default {
     font-weight: 300;
     max-width: 500px;
 }
-.left-box {
+.left-box,
+.right-box {
     background-color: var(--proj-left-bg);
     color: var(--proj-left-fg);
 }
 .right-box {
-    background-color: var(--proj-right-bg);
     color: var(--proj-right-title);
 }
 .project-img-container {
@@ -182,6 +182,9 @@ export default {
     .left-box,
     .right-box {
         width: 50%;
+    }
+    .right-box {
+        background-color: var(--proj-right-bg);
     }
     .right-box .header-right {
         color: var(--proj-right-title) !important;

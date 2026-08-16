@@ -83,8 +83,6 @@
                         <div class="terminal-titlebar">
                             <div class="traffic-lights">
                                 <span class="tl tl-red" @click="selected = null"></span>
-                                <span class="tl tl-yellow"></span>
-                                <span class="tl tl-green"></span>
                             </div>
                             <span class="terminal-title">~ {{ selected.name }}</span>
                             <span class="tl-spacer"></span>
