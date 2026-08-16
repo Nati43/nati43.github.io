@@ -5,7 +5,7 @@
             <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-start px-3 px-md-5 py-md-5 text-custome-light text-center">
                 <div class="">
                     <p class="mt-4 text text-left">
-                        Have an <span class="title" style="color: #FF7F50;">idea</span> you want to work on <span class="title">?</span> <br>
+                        Have an <span class="title" style="color: var(--contact-accent);">idea</span> you want to work on <span class="title">?</span> <br>
                     </p>
                 </div>
 
@@ -61,7 +61,7 @@
                         <b-form-textarea id="input-3" name="message" placeholder="Message" rows="5" class="border-0 p-4 shadow-sm input"> </b-form-textarea>
                     </b-form-group>
 
-                    <b-button type="submit" variant="outline-primary" class="align-self-end py-2 px-5 font-weight-bold px-4 mt-4">Send</b-button>
+                    <b-button type="submit" class="send-btn align-self-end py-2 px-5 font-weight-bold px-4 mt-4">Send</b-button>
                 </form>
             </div>
         </b-card>
@@ -78,16 +78,17 @@ export default {
 
 <style scoped>
 @keyframes flash {
-  50% { fill: #FF7F50; filter: drop-shadow(0 0 5em #FF7F50);}
+  50% { fill: var(--contact-accent); filter: drop-shadow(0 0 3em var(--contact-accent));}
 }
 #lamp {
-    animation: flash 1s ease infinite;
+    animation: flash 2s ease infinite;
 }
 </style>
 
 <style scoped>
 #contact {
-    background: #212121;
+    background: var(--contact-bg);
+    color: var(--contact-fg);
     position: relative;
 }
 .title {
@@ -96,23 +97,35 @@ export default {
 }
 .text {
     font-size: 25px;
+    color: var(--contact-fg);
 }
 
 .input {
-    background-color: #fff1;
-    color: #fff;
+    background-color: var(--contact-input-bg) !important;
+    color: var(--contact-input-fg) !important;
+    border: 1px solid var(--contact-input-border) !important;
+    border-radius: 8px;
+    transition: all 0.25s ease;
 }
 
-.btn-outline-primary {
-    color: #E1E1E1;
-    border-color: #E1E1E1;
-    outline-color: #E1E1E1 !important;
+.input:focus {
+    border-color: var(--contact-accent) !important;
+    box-shadow: 0 0 10px rgba(255, 127, 80, 0.4) !important;
 }
-.btn-outline-primary:hover,
-.btn-outline-primary:active,
-.btn-outline-primary:focus {
-    color: #fff;
-    background-color: #FF7F50;
+
+.send-btn {
+    color: var(--contact-btn-fg) !important;
+    border: 2px solid var(--contact-btn-border) !important;
+    background-color: transparent !important;
+    border-radius: 2em;
+    transition: all 0.25s ease;
+}
+.send-btn:hover,
+.send-btn:active,
+.send-btn:focus {
+    color: var(--contact-btn-hover-fg) !important;
+    background-color: var(--contact-btn-hover-bg) !important;
+    box-shadow: 0 0 15px rgba(255, 127, 80, 0.4);
 }
 
 .contact-form {

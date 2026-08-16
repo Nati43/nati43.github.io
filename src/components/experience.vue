@@ -2,7 +2,7 @@
     <div class="p-0 pb-5 m-0 d-flex flex-column exp-section vw-100 overflow-hidden">
 
         <div class="mx-auto flex-grow-1 d-flex flex-column">
-            <h1 class="title-large pt-3 pt-md-5 mt-3 mt-md-5 text-muted text-center"> Experience </h1>
+            <h1 class="title-large pt-3 pt-md-5 mt-3 mt-md-5 text-center" style="color: var(--exp-title);"> Experience </h1>
 
             <div v-if="!loadingExperiences" class="my-5 my-auto d-flex flex-column flex-md-row align-items-stretch">
 
@@ -24,21 +24,21 @@
                                 v-for="(role, idx) in experiences[selected].roles"
                                 :key="idx" >
                                 
-                                <div class="text-left card shadow-sm p-4 my-3 border-0">
+                                <div class="text-left card shadow-sm p-4 my-3 border-0 theme-card">
                                     <div>
-                                        <p class="title"> {{role.title}} </p>
-                                        <p class="font-weight-bold text-muted small"> {{role.start}} - {{role.end}} <span class="font-italic px-2 font-weight-bold " v-if="role.type"> ({{role.type}}) </span> </p>
-                                        <p class="text-muted small" v-if="experiences[selected].fullCompanyName"> {{experiences[selected].companyName}} ({{experiences[selected].fullCompanyName}}) </p>
+                                        <p class="title" style="color: var(--exp-fg);"> {{role.title}} </p>
+                                        <p class="font-weight-bold small" style="color: var(--exp-sub);"> {{role.start}} - {{role.end}} <span class="font-italic px-2 font-weight-bold" v-if="role.type"> ({{role.type}}) </span> </p>
+                                        <p class="small" style="color: var(--exp-sub);" v-if="experiences[selected].fullCompanyName"> {{experiences[selected].companyName}} ({{experiences[selected].fullCompanyName}}) </p>
                                     </div>
                                     <div v-if="role.pendingDetails">
-                                        <span class="pending-container h6 font-weight-bold" style="color:#FF7F50;"></span>
+                                        <span class="pending-container h6 font-weight-bold" style="color:var(--exp-tab-active-border);"></span>
                                         <span class="font-weight-bold d-inline-block mx-1 blink" style="width: .25em; height: .8em; "></span>
                                     </div>
                                     <ul v-else>
                                         <li v-for="(point, idx2) in role.points" :key="idx2"> {{point}} </li>
                                     </ul>
                                     <div class="my-3 d-flex flex-wrap">
-                                        <span class="bg-light highlights py-2 px-3 m-2 text-muted font-weight-bold" v-for="(highlight, idx2) in role.highlights" :key="idx2"> {{highlight}} </span>
+                                        <span class="highlights py-2 px-3 m-2 font-weight-bold" v-for="(highlight, idx2) in role.highlights" :key="idx2"> {{highlight}} </span>
                                     </div>
                                 </div>
 
@@ -148,11 +148,18 @@ export default {
     min-width: 180px !important;
     border-radius: 0;
     cursor: pointer;
+    color: var(--exp-fg);
+    transition: all 0.2s ease;
+}
+.company-tabs:hover {
+    color: var(--exp-tab-active-border);
+    background-color: var(--exp-tab-active-bg);
 }
 .company-tabs.active {
     border: 0;
-    border-bottom: 3px solid #FF7F50;
-    background-color: #ccc2;
+    border-bottom: 3px solid var(--exp-tab-active-border);
+    background-color: var(--exp-tab-active-bg);
+    color: var(--exp-tab-active-border);
 }
 .company-tabs-container {
     max-width: 100vw;
@@ -166,6 +173,12 @@ export default {
     font-size: 1.2em;
     font-weight: 900;
 }
+.theme-card {
+    background-color: var(--exp-card-bg) !important;
+    color: var(--exp-card-fg) !important;
+    border: 1px solid var(--exp-card-border) !important;
+    border-radius: 8px;
+}
 .role-container ul {
   list-style: none;
 }
@@ -173,21 +186,26 @@ export default {
 .role-container ul li {
     position: relative;
     line-height: 1.75em;
+    color: var(--exp-fg);
 }
 .role-container ul li::before {
     content: "\2022";
-    color: #6c757d;
+    color: var(--exp-sub);
     position: absolute;
     left: -1.5em;
 }
 .highlights {
     border-radius: 2em;
+    background-color: var(--exp-tag-bg) !important;
+    color: var(--exp-tag-fg) !important;
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .exp-section {
     max-width: 100vw;
     overflow: hidden;
-    background-color: #fff;
+    background-color: var(--exp-bg);
+    color: var(--exp-fg);
 }
 /* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) { 
@@ -224,7 +242,7 @@ export default {
 @media (min-width: 768px) { 
     .company-tabs.active {
         border: 0;
-        border-left: 3px solid #FF7F50;
+        border-left: 3px solid var(--exp-tab-active-border);
     }
     .details-container {
         max-width: 40vw;
@@ -238,7 +256,7 @@ export default {
 }
 @keyframes blink-caret {
   from, to { background-color: transparent }
-  50% { background-color: #FF7F50; }
+  50% { background-color: var(--exp-tab-active-border); }
 }
 .blink {
     animation: blink-caret .75s step-end infinite;

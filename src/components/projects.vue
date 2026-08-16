@@ -3,18 +3,18 @@
 
         <div class="d-flex flex-row flex-wrap"> 
             <div class="left-box d-flex flex-grow-1">
-                <h1 class="pt-3 pt-md-5 mt-3 mt-md-5 ml-auto title-large text-white"> Pro </h1>
+                <h1 class="pt-3 pt-md-5 mt-3 mt-md-5 ml-auto title-large header-left"> Pro </h1>
             </div>
             <div class="right-box d-flex flex-grow-1">
-                <h1 class="pt-3 pt-md-5 mt-3 mt-md-5 mr-auto title-large text-white"> ject </h1>
+                <h1 class="pt-3 pt-md-5 mt-3 mt-md-5 mr-auto title-large header-right"> ject </h1>
             </div>
         </div>
         <div class="d-flex flex-row flex-wrap"> 
             <div class="left-box d-flex flex-grow-1">
-                <h1 class="pb-3 pb-md-5 mb-3 mb-md-5 ml-auto title-large text-white"> high </h1>
+                <h1 class="pb-3 pb-md-5 mb-3 mb-md-5 ml-auto title-large header-left"> high </h1>
             </div>
             <div class="right-box d-flex flex-grow-1">
-                <h1 class="pb-3 pb-md-5 mb-3 mb-md-5 mr-auto title-large text-white"> lights </h1>
+                <h1 class="pb-3 pb-md-5 mb-3 mb-md-5 mr-auto title-large header-right"> lights </h1>
             </div>
         </div>
 
@@ -22,11 +22,11 @@
             :key="idx"
             class="d-flex flex-row flex-wrap flex-grow-1 project">
             
-            <div class="left-box d-flex align-items-center justify-content-center text-white py-5">
+            <div class="left-box d-flex align-items-center justify-content-center py-5">
                 <div class="d-flex flex-row">
-                    <div class="title px-4 d-none d-md-block"> 0{{idx+1}}. </div>
-                    <div class="border-left pl-5  d-flex flex-column text-left">
-                        <p class="title"> {{project.title}} </p>
+                    <div class="title index-number px-4 d-none d-md-block"> 0{{idx+1}}. </div>
+                    <div class="border-left pl-5 d-flex flex-column text-left" style="border-color: rgba(255,255,255,0.2) !important;">
+                        <p class="title project-title"> {{project.title}} </p>
                         <p class="title-2 mt-2"> {{project.subtitle}} </p>
                         <p class="description mt-2 w-75"> {{project.description}} </p>
                         <div class="project-img-container d-md-none" :class="{'mobile': project.type == 'mobile', 'desktop': project.type == 'desktop'}" >
@@ -37,7 +37,7 @@
                                 class="project-img" 
                                 :class="{'mobile': project.type == 'mobile', 'desktop': project.type == 'desktop'}" ></b-img-lazy>
                         </div>
-                        <b-link class="btn align-self-start py-2 px-5 font-weight-bold px-4 mt-4 text-white border-white" target="_blank" :href="project.link">Visit</b-link>
+                        <b-link class="btn visit-btn align-self-start py-2 px-5 font-weight-bold px-4 mt-4" target="_blank" :href="project.link">Visit</b-link>
                     </div>
                 </div>
             </div>
@@ -108,16 +108,31 @@ export default {
 
 <style scoped>
 
-.btn-outline-primary {
-    color: #E1E1E1;
-    border-color: #E1E1E1;
-    outline-color: #E1E1E1 !important;
+.visit-btn {
+    color: var(--proj-btn-fg) !important;
+    border: 2px solid var(--proj-btn-border) !important;
+    background-color: transparent !important;
+    border-radius: 2em;
+    transition: all 0.25s ease;
 }
-.btn-outline-primary:hover,
-.btn-outline-primary:active,
-.btn-outline-primary:focus {
-    color: #fff;
-    background-color: #FF7F50;
+.visit-btn:hover,
+.visit-btn:active,
+.visit-btn:focus {
+    color: var(--proj-btn-hover-fg) !important;
+    background-color: var(--proj-btn-hover-bg) !important;
+    box-shadow: 0 0 15px rgba(255, 127, 80, 0.4);
+}
+.header-left {
+    color: var(--proj-left-title) !important;
+}
+.header-right {
+    color: var(--proj-right-title) !important;
+}
+.index-number {
+    color: var(--proj-left-title);
+}
+.project-title {
+    color: var(--proj-left-title);
 }
 .title-large {
     font-size: clamp(38px, 2.5vw, 52px);
@@ -128,25 +143,29 @@ export default {
     font-weight: 900;
 }
 .title-2 {
-    color: #ccc;
+    color: var(--proj-left-sub);
     font-size: clamp(24px, 2vw, 30px);
     font-weight: 800;
 }
 .description {
-    font-size: 24px;
+    color: var(--proj-left-desc);
     font-size: clamp(16px, 1vw, 24px);
     font-weight: 300;
     max-width: 500px;
 }
-.left-box,
+.left-box {
+    background-color: var(--proj-left-bg);
+    color: var(--proj-left-fg);
+}
 .right-box {
-    background-color: #212121;
-
+    background-color: var(--proj-right-bg);
+    color: var(--proj-right-title);
 }
 .project-img-container {
     border-radius: .5em;
     padding: .25em;
-    background-color: #E4E6F9;
+    background-color: var(--proj-img-bg);
+    border: 1px solid var(--proj-img-border);
     box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
 }
 .project-img-container.mobile {
@@ -164,11 +183,8 @@ export default {
     .right-box {
         width: 50%;
     }
-    .right-box {
-        background-color: unset;
-    }
-    .right-box .title-large {
-        color:#212121 !important;
+    .right-box .header-right {
+        color: var(--proj-right-title) !important;
     }
     .project {
         min-height: 80vh;

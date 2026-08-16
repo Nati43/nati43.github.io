@@ -8,12 +8,12 @@
             <div class="flex-grow-1 d-flex flex-column justify-content-end px-3 px-md-5 py-5 text-custome-light text-left">
                 <div class="d-flex align-items-center">
                     <div>
-                        <small class="my-2 h4" style="color: #FF7F50; font-weight: 300;"> Hi, my name is </small>
+                        <small class="my-2 h4" style="color: var(--intro-accent); font-weight: 300;"> Hi, my name is </small>
                         <b-card-title class="title mb-4">Natnael Meseret.</b-card-title>
                     </div>
                     <div class="avatar shadow-sm mr-3 d-md-none"></div>
                 </div>
-                <small class="mb-2 h4" style="color: #FF7F50; font-weight: 300;">I'm a</small>
+                <small class="mb-2 h4" style="color: var(--intro-accent); font-weight: 300;">I'm a</small>
                 <b-card-title class="title-2 mb-4">Software Engineer.</b-card-title>
                 <div class="subtitle mb-md-4 mt-3">
                     <div style="min-height: 125px;">
@@ -160,20 +160,21 @@ export default {
     opacity: 0;
 }
 #coffee {
-    fill: #FF7F50;
+    fill: var(--intro-accent);
 }
 </style>
 
 <style scoped>
 @keyframes blink-caret {
   from, to { background-color: transparent }
-  50% { background-color: #FF7F50; }
+  50% { background-color: var(--intro-accent); }
 }
 .blink {
     animation: blink-caret .75s step-end infinite;
 }
 #intro {
-    background-color: #212121;
+    background-color: var(--intro-bg);
+    color: var(--intro-fg);
 }
 .right-card {
     background-image: url('../assets/mugshot.jpeg');
