@@ -82,7 +82,7 @@
                             <!-- Title bar -->
                             <div class="terminal-titlebar">
                                 <div class="traffic-lights">
-                                    <span class="tl tl-yellow"></span>
+                                    <span class="tl tl-red" @click="selected = null"></span>
                                 </div>
                                 <span class="terminal-title">~ {{ selected.name }}</span>
                                 <span class="tl-spacer"></span>
@@ -447,7 +447,8 @@ export default {
     display: inline-block;
     opacity: 0.85;
 }
-.tl-yellow { background: #ffbd2e; }
+.tl-red    { background: #ff5f57; cursor: pointer; }
+.tl-red:hover { opacity: 1; filter: brightness(1.15); }
 .tl-spacer { flex: 1; }
 .terminal-title {
     flex: 1;
