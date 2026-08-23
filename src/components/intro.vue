@@ -177,7 +177,7 @@ export default {
     color: var(--intro-fg);
 }
 .right-card {
-    background-image: url('../assets/mugshot.jpeg');
+    /* background-image: url('../assets/mugshot.jpeg'); */
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;

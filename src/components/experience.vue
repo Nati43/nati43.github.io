@@ -6,6 +6,13 @@
 
             <div v-if="!loadingExperiences" class="my-5 my-auto d-flex flex-column flex-md-row align-items-stretch">
 
+                <!-- Mobile Scroll Indicator -->
+                <div class="d-md-none text-center mb-2">
+                    <span class="scroll-hint font-weight-bold">
+                        <span>&larr;</span> swipe companies <span>&rarr;</span>
+                    </span>
+                </div>
+
                 <div class="mx-md-4 company-tabs-container d-flex flex-row flex-md-column justify-content-stretch align-items-stretch">
                     <div 
                         v-for="(item, idx) in experiences" 
@@ -143,6 +150,22 @@ export default {
 </script>
 
 <style scoped>
+.scroll-hint {
+    font-size: 0.72rem;
+    color: var(--exp-sub);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.75;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    animation: pulse-hint 2.2s ease-in-out infinite;
+}
+@keyframes pulse-hint {
+    0%, 100% { opacity: 0.45; transform: translateY(0); }
+    50% { opacity: 0.9; transform: translateY(-1px); }
+}
+
 .company-tabs {
     white-space: nowrap !important;
     min-width: 180px !important;
