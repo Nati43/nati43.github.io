@@ -32,7 +32,29 @@
                                 :key="idx" >
                                 
                                 <div class="text-left card shadow-sm p-4 my-3 border-0 theme-card">
-                                    <div>
+                                    <!-- Top-Right Project Corner Cutout -->
+                                    <div v-if="role.project" class="role-project-corner">
+                                        <a 
+                                            v-if="role.projectLink" 
+                                            :href="role.projectLink" 
+                                            target="_blank" 
+                                            rel="noopener noreferrer" 
+                                            class="project-corner-link"
+                                            :title="'Visit ' + role.project"
+                                        >
+                                            <span class="project-name">{{ role.project }}</span>
+                                            <svg class="external-icon" viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                                <polyline points="15 3 21 3 21 9"></polyline>
+                                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                                            </svg>
+                                        </a>
+                                        <div v-else class="project-corner-badge">
+                                            <span class="project-name">{{ role.project }}</span>
+                                        </div>
+                                    </div>
+
+                                    <div :class="{ 'pr-5 mr-md-4': role.project }">
                                         <p class="title" style="color: var(--exp-fg);"> {{role.title}} </p>
                                         <p class="font-weight-bold small" style="color: var(--exp-sub);"> {{role.start}} - {{role.end}} <span class="font-italic px-2 font-weight-bold" v-if="role.type"> ({{role.type}}) </span> </p>
                                         <p class="small" style="color: var(--exp-sub);" v-if="experiences[selected].fullCompanyName"> {{experiences[selected].companyName}} ({{experiences[selected].fullCompanyName}}) </p>
@@ -41,8 +63,11 @@
                                         <span class="pending-container h6 font-weight-bold" style="color:var(--exp-tab-active-border);"></span>
                                         <span class="font-weight-bold d-inline-block mx-1 blink" style="width: .25em; height: .8em; "></span>
                                     </div>
-                                    <ul v-else>
-                                        <li v-for="(point, idx2) in role.points" :key="idx2"> {{point}} </li>
+                                    <!-- 1. Dedicated pointsMD Markdown Block -->
+                                    <div v-else-if="role.pointsMD" class="role-markdown" v-html="renderMarkdown(role.pointsMD)"></div>
+                                    <!-- 2. Legacy points Array Fallback -->
+                                    <ul v-else-if="role.points && role.points.length" class="role-points-list">
+                                        <li v-for="(point, idx2) in role.points" :key="idx2" v-html="renderInline(point)"></li>
                                     </ul>
                                     <div class="my-3 d-flex flex-wrap">
                                         <span class="highlights py-2 px-3 m-2 font-weight-bold" v-for="(highlight, idx2) in role.highlights" :key="idx2"> {{highlight}} </span>
@@ -64,6 +89,8 @@
 <script>
 import { collection, getDocs } from '@firebase/firestore';
 import { db } from '../firebase/index';
+import { renderBlockMarkdown, renderInlineMarkdown } from '../utils/markdown';
+
 export default {
     name:'experience',
     data: ()=>{
@@ -110,6 +137,12 @@ export default {
         });
     },
     methods: {
+        renderMarkdown(md) {
+            return renderBlockMarkdown(md);
+        },
+        renderInline(text) {
+            return renderInlineMarkdown(text);
+        },
         setSelected(idx) {
             if(this.selected != idx){
                 this.selected = null;
@@ -197,25 +230,235 @@ export default {
     font-weight: 900;
 }
 .theme-card {
+    position: relative;
+    overflow: hidden;
     background-color: var(--exp-card-bg) !important;
     color: var(--exp-card-fg) !important;
     border: 1px solid var(--exp-card-border) !important;
-    border-radius: 8px;
-}
-.role-container ul {
-  list-style: none;
+    border-radius: 12px;
 }
 
-.role-container ul li {
-    position: relative;
+/* ── Top-Right Project Corner Cutout ─────── */
+.role-project-corner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+}
+
+.project-corner-link,
+.project-corner-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0.42rem 1rem 0.46rem 1.05rem;
+    background: var(--exp-tab-active-bg);
+    border: none;
+    border-bottom-left-radius: 12px;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: var(--exp-tab-active-border) !important;
+    text-decoration: none !important;
+    transition: all 0.22s ease;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.28);
+}
+
+.project-corner-link {
+    cursor: pointer;
+}
+
+.project-corner-link:hover {
+    color: #1a1b26 !important;
+    background: var(--exp-tab-active-border) !important;
+    box-shadow: 0 4px 18px rgba(122, 162, 247, 0.45);
+    transform: translateY(-1px);
+}
+
+.project-corner-badge {
+    opacity: 0.95;
+}
+
+.project-name {
+    font-weight: 800;
+    font-family: 'JetBrains Mono', monospace;
+    line-height: 1.2;
+}
+
+.external-icon {
+    opacity: 1;
+    stroke: currentColor;
+    stroke-width: 2.8;
+    transition: transform 0.2s ease;
+    margin-left: 1px;
+}
+
+.project-corner-link:hover .external-icon {
+    transform: translate(2px, -2px);
+}
+/* ── Role Markdown Content ─────────────────── */
+.role-markdown {
+    color: var(--exp-fg);
+    font-size: 1rem;
+    line-height: 1.75em;
+    margin-top: 0.5rem;
+}
+.role-markdown ::v-deep p {
+    margin-bottom: 0.85rem;
     line-height: 1.75em;
     color: var(--exp-fg);
 }
-.role-container ul li::before {
+.role-markdown ::v-deep p:last-child {
+    margin-bottom: 0;
+}
+.role-markdown ::v-deep ul,
+.role-markdown ::v-deep ol {
+    list-style: none;
+    padding-left: 1.5rem;
+    margin-bottom: 0.85rem;
+}
+.role-markdown ::v-deep ul li {
+    position: relative;
+    line-height: 1.75em;
+    color: var(--exp-fg);
+    margin-bottom: 0.35rem;
+}
+.role-markdown ::v-deep ul li::before {
     content: "\2022";
     color: var(--exp-sub);
     position: absolute;
-    left: -1.5em;
+    left: -1.25em;
+}
+.role-markdown ::v-deep ol {
+    list-style: decimal;
+}
+.role-markdown ::v-deep ol li {
+    margin-bottom: 0.35rem;
+    color: var(--exp-fg);
+}
+.role-markdown ::v-deep ul ul,
+.role-markdown ::v-deep ol ol,
+.role-markdown ::v-deep ul ol,
+.role-markdown ::v-deep ol ul {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+    padding-left: 1.25rem;
+}
+.role-markdown ::v-deep ul ul li::before {
+    content: "\25E6";
+    color: var(--exp-sub);
+}
+.role-markdown ::v-deep strong,
+.role-markdown ::v-deep b {
+    color: var(--exp-fg);
+    font-weight: 700;
+}
+.role-markdown ::v-deep em,
+.role-markdown ::v-deep i {
+    font-style: italic;
+}
+.role-markdown ::v-deep u,
+.role-markdown ::v-deep ins {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+.role-markdown ::v-deep s,
+.role-markdown ::v-deep del {
+    text-decoration: line-through;
+    opacity: 0.75;
+}
+.role-markdown ::v-deep code {
+    background-color: var(--exp-tag-bg);
+    color: var(--exp-tab-active-border);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.88em;
+    font-family: 'JetBrains Mono', monospace;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.role-markdown ::v-deep pre {
+    background-color: var(--exp-tag-bg);
+    padding: 0.85rem 1.1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin-bottom: 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.role-markdown ::v-deep pre code {
+    background: transparent;
+    padding: 0;
+    border: none;
+    color: var(--exp-fg);
+}
+.role-markdown ::v-deep a {
+    color: var(--exp-tab-active-border);
+    text-decoration: underline;
+    transition: opacity 0.2s ease;
+}
+.role-markdown ::v-deep a:hover {
+    opacity: 0.8;
+}
+.role-markdown ::v-deep blockquote {
+    border-left: 3px solid var(--exp-tab-active-border);
+    padding-left: 1rem;
+    margin: 0.85rem 0;
+    color: var(--exp-sub);
+    font-style: italic;
+}
+.role-markdown ::v-deep h3,
+.role-markdown ::v-deep h4,
+.role-markdown ::v-deep h5,
+.role-markdown ::v-deep h6 {
+    color: var(--exp-fg);
+    font-weight: 700;
+    margin-top: 1rem;
+    margin-bottom: 0.4rem;
+}
+
+/* ── Legacy Points List Fallback ───────────── */
+.role-points-list {
+    list-style: none;
+    padding-left: 1.5rem;
+    margin-bottom: 0.85rem;
+}
+.role-points-list li {
+    position: relative;
+    line-height: 1.75em;
+    color: var(--exp-fg);
+    margin-bottom: 0.35rem;
+}
+.role-points-list li::before {
+    content: "\2022";
+    color: var(--exp-sub);
+    position: absolute;
+    left: -1.25em;
+}
+.role-points-list li ::v-deep strong,
+.role-points-list li ::v-deep b {
+    color: var(--exp-fg);
+    font-weight: 700;
+}
+.role-points-list li ::v-deep em,
+.role-points-list li ::v-deep i {
+    font-style: italic;
+}
+.role-points-list li ::v-deep u,
+.role-points-list li ::v-deep ins {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+.role-points-list li ::v-deep code {
+    background-color: var(--exp-tag-bg);
+    color: var(--exp-tab-active-border);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.88em;
+    font-family: 'JetBrains Mono', monospace;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.role-points-list li ::v-deep a {
+    color: var(--exp-tab-active-border);
+    text-decoration: underline;
 }
 .highlights {
     border-radius: 2em;
@@ -256,9 +499,19 @@ export default {
         opacity: 1;
     }
 }
-/* Small devices (landscape phones, 576px and up) */
-@media (min-width: 310px) {
-    
+/* Small devices (phones) */
+@media (max-width: 576px) {
+    .role-project-corner {
+        position: static;
+        margin-bottom: 0.65rem;
+        display: inline-block;
+    }
+    .project-corner-link,
+    .project-corner-badge {
+        border-radius: 6px;
+        border: none;
+        padding: 0.28rem 0.65rem;
+    }
 }
 
 /* Medium devices (tablets, 768px and up) */
