@@ -33,7 +33,7 @@
                             <img
                                 :src="project.images[0]" 
                                 loading="lazy" 
-                                alt="Project image" 
+                                :alt="project.alt" 
                                 class="img-fluid project-img" 
                                 :class="{'mobile': project.type == 'mobile', 'desktop': project.type == 'desktop'}" />
                         </div>
@@ -48,7 +48,7 @@
                     <img
                         :src="project.images[0]" 
                         loading="lazy" 
-                        alt="Project image" 
+                        :alt="project.alt" 
                         class="img-fluid project-img" 
                         :class="{'mobile': project.type == 'mobile', 'desktop': project.type == 'desktop'}" />
                 </div>
@@ -66,7 +66,8 @@ const projects = [
         description: 'Worked as a FullStack developer. Implemented a mobile first portal for online reservations.',
         type: 'mobile',
         link: 'https://mengede.et/booking',
-        images: ['/projects/booking/01.png']
+        images: ['/projects/booking/01.png'],
+        alt: 'Mengede online booking portal — mobile-first reservation interface'
     },
     {
         title: 'Mengede',
@@ -74,7 +75,8 @@ const projects = [
         description: 'Worked as a FullStack developer on this business process automation(BPA) SaaS platform.',
         type: 'desktop',
         link: 'https://mengede.et',
-        images: ['/projects/bpa/01.png']
+        images: ['/projects/bpa/01.png'],
+        alt: 'Mengede BPA — business process automation SaaS platform dashboard'
     },
     {
         title: 'Derash Technologies',
@@ -82,7 +84,8 @@ const projects = [
         description: 'Built several pages with responsive UI components for the company website.',
         type: 'desktop',
         link: 'https://derashtech.com',
-        images: ['/projects/derash/01.png']
+        images: ['/projects/derash/01.png'],
+        alt: 'Derash Technologies company website — responsive UI design'
     },
     {
         title: 'Watchdog',
@@ -90,7 +93,8 @@ const projects = [
         description: 'A real-time monitoring tool for your docker environment. Monitor the statuses and logs of your docker containers on your development and/or production servers in real-time.',
         type: 'desktop',
         link: 'https://hub.docker.com/r/nati43/watchdog',
-        images: ['/projects/watchdog/01.jpeg']
+        images: ['/projects/watchdog/01.jpeg'],
+        alt: 'Watchdog — real-time Docker container monitoring dashboard'
     }
 ];
 </script>

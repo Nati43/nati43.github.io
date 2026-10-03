@@ -1,0 +1,195 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Radial Glow -->
+    <radialGradient id="bgGlow" cx="50%" cy="36%" r="68%">
+      <stop offset="0%" stop-color="#24283b" />
+      <stop offset="100%" stop-color="#14151f" />
+    </radialGradient>
+
+    <!-- Outer Ring Gradient -->
+    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7aa2f7" />
+      <stop offset="50%" stop-color="#7dcfff" />
+      <stop offset="100%" stop-color="#bb9af7" />
+    </linearGradient>
+
+    <!-- Glasses Frame Gradient -->
+    <linearGradient id="glassesGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7dcfff" />
+      <stop offset="100%" stop-color="#7aa2f7" />
+    </linearGradient>
+
+    <!-- Glass Lens Tint -->
+    <linearGradient id="lensGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1f2335" stop-opacity="0.65" />
+      <stop offset="100%" stop-color="#16161e" stop-opacity="0.85" />
+    </linearGradient>
+
+    <!-- Light Skin Gradient (Warm, Light Tone) -->
+    <linearGradient id="skinGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffdfc4" />
+      <stop offset="50%" stop-color="#f5c7a5" />
+      <stop offset="100%" stop-color="#dfa57d" />
+    </linearGradient>
+
+    <!-- Dark Volumetric Hair Gradient -->
+    <linearGradient id="hairGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#343b58" />
+      <stop offset="45%" stop-color="#1c1f2e" />
+      <stop offset="100%" stop-color="#12131c" />
+    </linearGradient>
+
+    <!-- Circle Clip -->
+    <clipPath id="avatarClip">
+      <circle cx="256" cy="256" r="236" />
+    </clipPath>
+  </defs>
+
+  <!-- Base Badge Background -->
+  <circle cx="256" cy="256" r="248" fill="#1a1b26" />
+
+  <!-- Avatar Group clipped inside circle -->
+  <g clip-path="url(#avatarClip)">
+    <!-- Ambient Tokyo Night Background -->
+    <circle cx="256" cy="256" r="236" fill="url(#bgGlow)" />
+
+    <!-- Subtle Tech Grid Lines in Background -->
+    <g opacity="0.08" stroke="#7aa2f7" stroke-width="1.5">
+      <line x1="50" y1="130" x2="462" y2="130" />
+      <line x1="50" y1="190" x2="462" y2="190" />
+      <line x1="50" y1="250" x2="462" y2="250" />
+      <line x1="50" y1="310" x2="462" y2="310" />
+      <line x1="130" y1="40" x2="130" y2="470" />
+      <line x1="256" y1="40" x2="256" y2="470" />
+      <line x1="382" y1="40" x2="382" y2="470" />
+    </g>
+
+    <!-- Broad Shoulders & Suit Jacket for Chubby Build -->
+    <path d="M 36 512 C 48 395, 120 368, 256 368 C 392 368, 464 395, 476 512 Z" fill="#24283b" stroke="#3b4261" stroke-width="4" />
+    
+    <!-- Suit Lapels -->
+    <path d="M 152 512 L 206 372 L 224 460 Z" fill="#1f2335" />
+    <path d="M 360 512 L 306 372 L 288 460 Z" fill="#1f2335" />
+
+    <!-- White Shirt V-Neck & Dark Tie -->
+    <polygon points="206,370 256,450 306,370" fill="#f1f5f9" />
+    <path d="M 246 422 L 266 422 L 272 512 L 240 512 Z" fill="#7aa2f7" opacity="0.95" />
+    <polygon points="244,418 268,418 264,436 248,436" fill="#565f89" />
+
+    <!-- Thick, Solid Neck with Soft Double-Chin -->
+    <path d="M 198 290 L 198 385 Q 256 405 314 385 L 314 290 Z" fill="#d99f77" />
+    <!-- Soft double chin shadow fold -->
+    <ellipse cx="256" cy="336" rx="52" ry="14" fill="#be825c" opacity="0.45" />
+
+    <!-- Ears on wide chubby head -->
+    <path d="M 150 220 C 134 220, 132 270, 152 280" fill="#f2be9b" stroke="#3b4261" stroke-width="3" />
+    <path d="M 362 220 C 378 220, 380 270, 360 280" fill="#f2be9b" stroke="#3b4261" stroke-width="3" />
+    <ellipse cx="147" cy="248" rx="4" ry="13" fill="#be825c" opacity="0.4" />
+    <ellipse cx="365" cy="248" rx="4" ry="13" fill="#be825c" opacity="0.4" />
+
+    <!-- ── CHUBBY / ROUNDED PLUMP FACE SHAPE (LIGHT SKIN) ── -->
+    <!-- Full plump cheeks swelling outward into a round friendly jaw -->
+    <path d="M 158 170 
+             C 152 112, 196 82, 256 82 
+             C 316 82, 360 112, 354 170 
+             C 360 215, 370 270, 344 314 
+             C 324 350, 292 364, 256 364 
+             C 220 364, 188 350, 168 314 
+             C 142 270, 152 215, 158 170 Z" 
+          fill="url(#skinGrad)" />
+
+    <!-- Cute Chubby Cheeks (Rosy Blush Highlights) -->
+    <ellipse cx="192" cy="274" rx="26" ry="16" fill="#f49b80" opacity="0.32" />
+    <ellipse cx="320" cy="274" rx="26" ry="16" fill="#f49b80" opacity="0.32" />
+
+    <!-- ── EXTRA VOLUMETRIC BIG CURLY HAIR ── -->
+    <!-- Expanded higher, wider crown with full afro/taper dome -->
+    <path d="M 144 196 
+             C 128 130, 158 44, 256 44 
+             C 354 44, 384 130, 368 196 
+             C 356 150, 332 120, 302 114 
+             C 286 111, 270 112, 256 112 
+             C 242 112, 226 111, 210 114 
+             C 180 120, 156 150, 144 196 Z" 
+          fill="url(#hairGrad)" />
+
+    <!-- Hair Texture, Curly Arcs & Volume Layers -->
+    <path d="M 156 140 C 170 74, 210 54, 256 54 C 302 54, 342 74, 356 140 C 330 92, 295 76, 256 76 C 217 76, 182 92, 156 140 Z" fill="#414868" opacity="0.75" />
+    <path d="M 184 94 Q 218 70 256 72 Q 294 70 328 94 Q 292 82 256 82 Q 220 82 184 94 Z" fill="#7aa2f7" opacity="0.3" />
+
+    <!-- Sideburns connecting directly into dense beard -->
+    <polygon points="152,190 164,190 166,242 154,242" fill="#141620" />
+    <polygon points="360,190 348,190 346,242 358,242" fill="#141620" />
+
+    <!-- ── ATTACHED, FULL BEARD WRAPPING THE FACE ── -->
+    <!-- Solid beard shape that precisely tracks the face contour from sideburn to sideburn -->
+    <path d="M 154 230 
+             C 142 270, 168 314, 188 350 
+             C 220 364, 256 364, 256 364 
+             C 256 364, 292 364, 324 350 
+             C 344 314, 370 270, 358 230 
+             C 340 262, 308 285, 286 302 
+             C 278 322, 234 322, 226 302 
+             C 204 285, 172 262, 154 230 Z" 
+          fill="#12131a" />
+
+    <!-- Chin Beard depth & texture highlight -->
+    <path d="M 218 342 C 236 362, 276 362, 294 342 C 286 364, 226 364, 218 342 Z" fill="#1f2335" opacity="0.6" />
+
+    <!-- Soul Patch right under lower lip -->
+    <polygon points="250,306 262,306 264,324 248,324" fill="#12131a" />
+
+    <!-- Prominent Full Mustache connecting into the beard -->
+    <path d="M 210 282 
+             Q 234 268 256 274 
+             Q 278 268 302 282 
+             Q 280 304 256 294 
+             Q 232 304 210 282 Z" 
+          fill="#12131a" />
+
+    <!-- Smile line under mustache -->
+    <path d="M 234 304 Q 256 314 278 304" fill="none" stroke="#e0845a" stroke-width="3" stroke-linecap="round" />
+
+    <!-- Cute Chubby Button Nose -->
+    <path d="M 250 238 L 248 266 Q 256 274 264 266 L 262 238" fill="none" stroke="#b07a55" stroke-width="3" stroke-linecap="round" />
+
+    <!-- Eyebrows -->
+    <path d="M 178 184 Q 208 174 234 182" fill="none" stroke="#141620" stroke-width="6.5" stroke-linecap="round" />
+    <path d="M 278 182 Q 304 174 334 184" fill="none" stroke="#141620" stroke-width="6.5" stroke-linecap="round" />
+
+    <!-- Expressive Eyes behind glasses -->
+    <ellipse cx="212" cy="216" rx="14" ry="10" fill="#ffffff" />
+    <ellipse cx="300" cy="216" rx="14" ry="10" fill="#ffffff" />
+    <circle cx="213" cy="216" r="7" fill="#181a24" />
+    <circle cx="299" cy="216" r="7" fill="#181a24" />
+    <circle cx="215" cy="214" r="2.5" fill="#ffffff" />
+    <circle cx="301" cy="214" r="2.5" fill="#ffffff" />
+
+    <!-- ── STYLISH GLASSES SITTING ON CHUBBY CHEEKS ── -->
+    <!-- Frame Drop Shadows -->
+    <rect x="170" y="192" width="80" height="56" rx="16" fill="#0c0d14" opacity="0.45" />
+    <rect x="262" y="192" width="80" height="56" rx="16" fill="#0c0d14" opacity="0.45" />
+
+    <!-- Left Lens & Frame -->
+    <rect x="168" y="188" width="80" height="56" rx="16" fill="url(#lensGrad)" stroke="url(#glassesGrad)" stroke-width="7" />
+    <!-- Right Lens & Frame -->
+    <rect x="264" y="188" width="80" height="56" rx="16" fill="url(#lensGrad)" stroke="url(#glassesGrad)" stroke-width="7" />
+
+    <!-- Glasses Bridge -->
+    <path d="M 248 206 Q 256 200 264 206" fill="none" stroke="url(#glassesGrad)" stroke-width="7" stroke-linecap="round" />
+
+    <!-- Glasses Temples (Arms extending outward) -->
+    <line x1="168" y1="205" x2="146" y2="210" stroke="url(#glassesGrad)" stroke-width="6" stroke-linecap="round" />
+    <line x1="344" y1="205" x2="366" y2="210" stroke="url(#glassesGrad)" stroke-width="6" stroke-linecap="round" />
+
+    <!-- Clean Diagonal Glass Sheen Reflections -->
+    <line x1="180" y1="236" x2="208" y2="196" stroke="#7dcfff" stroke-width="5" stroke-linecap="round" opacity="0.75" />
+    <line x1="194" y1="238" x2="214" y2="212" stroke="#7dcfff" stroke-width="2.5" stroke-linecap="round" opacity="0.4" />
+
+    <line x1="276" y1="236" x2="304" y2="196" stroke="#7dcfff" stroke-width="5" stroke-linecap="round" opacity="0.75" />
+    <line x1="290" y1="238" x2="310" y2="212" stroke="#7dcfff" stroke-width="2.5" stroke-linecap="round" opacity="0.4" />
+  </g>
+
+  <!-- Glowing Outer Tokyo Night Ring -->
+  <circle cx="256" cy="256" r="236" fill="none" stroke="url(#ringGrad)" stroke-width="12" />
+</svg>
