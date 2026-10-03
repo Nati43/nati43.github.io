@@ -21,8 +21,8 @@ jobs:
     container:
       image: node:24-alpine
     steps:
-      - name: Install git
-        run: apk add --no-cache git
+      - name: Install git and GNU tar
+        run: apk add --no-cache git tar
 
       - name: Checkout
         uses: actions/checkout@v4
