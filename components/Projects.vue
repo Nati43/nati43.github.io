@@ -30,14 +30,14 @@
                         <p class="title-2 mt-2"> {{project.subtitle}} </p>
                         <p class="description mt-2 w-75"> {{project.description}} </p>
                         <div class="project-img-container d-md-none" :class="{'mobile': project.type == 'mobile', 'desktop': project.type == 'desktop'}" >
-                            <b-img-lazy
+                            <img
                                 :src="project.images[0]" 
-                                fluid 
+                                loading="lazy" 
                                 alt="Project image" 
-                                class="project-img" 
-                                :class="{'mobile': project.type == 'mobile', 'desktop': project.type == 'desktop'}" ></b-img-lazy>
+                                class="img-fluid project-img" 
+                                :class="{'mobile': project.type == 'mobile', 'desktop': project.type == 'desktop'}" />
                         </div>
-                        <b-link class="btn visit-btn align-self-start py-2 px-5 font-weight-bold px-4 mt-4" target="_blank" :href="project.link">Visit</b-link>
+                        <a class="btn visit-btn align-self-start py-2 px-5 font-weight-bold px-4 mt-4" target="_blank" rel="noopener noreferrer" :href="project.link">Visit</a>
                     </div>
                 </div>
             </div>
@@ -45,12 +45,12 @@
             <div class="right-box d-none d-md-flex align-items-center justify-content-center py-5">
                 <div class="project-img-container" 
                     :class="{'mobile': project.type == 'mobile', 'desktop': project.type == 'desktop'}" >
-                    <b-img-lazy
+                    <img
                         :src="project.images[0]" 
-                        fluid 
+                        loading="lazy" 
                         alt="Project image" 
-                        class="project-img" 
-                        :class="{'mobile': project.type == 'mobile', 'desktop': project.type == 'desktop'}" ></b-img-lazy>
+                        class="img-fluid project-img" 
+                        :class="{'mobile': project.type == 'mobile', 'desktop': project.type == 'desktop'}" />
                 </div>
             </div>
 
@@ -58,56 +58,44 @@
     </div>
 </template>
 
-<script>
-/* eslint-disable */
-export default {
-    name:'projects',
-    data: ()=>{
-        return {
-            projects: [
-                {
-                    title: 'Mengede',
-                    subtitle: 'Online booking',
-                    description: 'Worked as a FullStack developer. Implemented a mobile first portal for online reservations.',
-                    type: 'mobile',
-                    link: 'https://mengede.et/booking',
-                    images: ['../projects/booking/01.png']
-                },
-                {
-                    title: 'Mengede',
-                    subtitle: 'Business Process Automation',
-                    description: 'Worked as a FullStack developer on this business process automation(BPA) SaaS platform.',
-                    type: 'desktop',
-                    link: 'https://mengede.et',
-                    images: ['../projects/bpa/01.png']
-                },
-                {
-                    title: 'Derash Technologies',
-                    subtitle: 'Company website',
-                    description: 'Built several pages with responsive UI components for the company website.',
-                    type: 'desktop',
-                    link: 'https://derashtech.com',
-                    images: ['../projects/derash/01.png']
-                },
-                {
-                    title: 'Watchdog',
-                    subtitle: 'My open-source contribution',
-                    description: 'A real-time monitoring tool for your docker environment. Monitor the statuses and logs of your docker containers on your development and/or production servers in real-time.',
-                    type: 'desktop',
-                    link: 'https://hub.docker.com/r/nati43/watchdog',
-                    images: ['../projects/watchdog/01.jpeg']
-                },
-            ]
-        }
+<script setup>
+const projects = [
+    {
+        title: 'Mengede',
+        subtitle: 'Online booking',
+        description: 'Worked as a FullStack developer. Implemented a mobile first portal for online reservations.',
+        type: 'mobile',
+        link: 'https://mengede.et/booking',
+        images: ['/projects/booking/01.png']
     },
-    mounted() {
-
+    {
+        title: 'Mengede',
+        subtitle: 'Business Process Automation',
+        description: 'Worked as a FullStack developer on this business process automation(BPA) SaaS platform.',
+        type: 'desktop',
+        link: 'https://mengede.et',
+        images: ['/projects/bpa/01.png']
+    },
+    {
+        title: 'Derash Technologies',
+        subtitle: 'Company website',
+        description: 'Built several pages with responsive UI components for the company website.',
+        type: 'desktop',
+        link: 'https://derashtech.com',
+        images: ['/projects/derash/01.png']
+    },
+    {
+        title: 'Watchdog',
+        subtitle: 'My open-source contribution',
+        description: 'A real-time monitoring tool for your docker environment. Monitor the statuses and logs of your docker containers on your development and/or production servers in real-time.',
+        type: 'desktop',
+        link: 'https://hub.docker.com/r/nati43/watchdog',
+        images: ['/projects/watchdog/01.jpeg']
     }
-}
+];
 </script>
 
 <style scoped>
-
 .visit-btn {
     color: var(--proj-btn-fg) !important;
     border: 2px solid var(--proj-btn-border) !important;

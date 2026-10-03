@@ -10,32 +10,10 @@
   </div>
 </template>
 
-<script>
-/* eslint-disable */
-import Loader from './components/Loader.vue'
-import ThemeSwitcher from './components/ThemeSwitcher.vue'
-import Intro from './components/intro.vue'
-import Experience from './components/experience.vue'
-import Wiu from './components/wiu.vue'
-import Contact from './components/contact.vue'
-import Projects from './components/projects.vue'
+<script setup>
+import { ref } from 'vue';
 
-export default {
-  name: 'App',
-  components: {
-    Loader,
-    ThemeSwitcher,
-    Intro,
-    Wiu,
-    Experience,
-    Contact,
-    Projects,
-  },
-  data() {
-    return { loading: true };
-  },
-  mounted() {}
-}
+const loading = ref(true);
 </script>
 
 <style>
@@ -281,25 +259,5 @@ html {
   min-height: 100vh;
   max-width: 100vw;
   overflow-x: hidden;
-}
-
-/* Medium devices (tablets, 768px and up) */
-@media (min-width: 768px) { 
-
-}
-
-/* Small devices (landscape phones, 576px and up) */
-@media (min-width: 576px) {
-
-}
-
-/* Large devices (desktops, 992px and up) */
-@media (min-width: 992px) {
-
-}
-
-/* Extra large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) {
-
 }
 </style>

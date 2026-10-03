@@ -1,8 +1,11 @@
 .DS_Store
 node_modules
-/dist
+dist
+.output
+.nuxt
 
 # local env files
+.env
 .env.local
 .env.*.local
 

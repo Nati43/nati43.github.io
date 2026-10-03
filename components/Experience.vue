@@ -4,7 +4,7 @@
         <div class="mx-auto flex-grow-1 d-flex flex-column">
             <h1 class="title-large pt-3 pt-md-5 mt-3 mt-md-5 text-center" style="color: var(--exp-title);"> Experience </h1>
 
-            <div v-if="!loadingExperiences" class="my-5 my-auto d-flex flex-column flex-md-row align-items-stretch">
+            <div v-if="experiences && experiences.length" class="my-5 my-auto d-flex flex-column flex-md-row align-items-stretch">
 
                 <!-- Mobile Scroll Indicator -->
                 <div class="d-md-none text-center mb-2">
@@ -18,7 +18,7 @@
                         v-for="(item, idx) in experiences" 
                         :key="idx" 
                         @click="setSelected(idx)"
-                        :class="{'active': idx==selected}"
+                        :class="{'active': idx === selected}"
                         class="p-3 text-left company-tabs" >
                         {{item.companyName}}
                     </div>
@@ -80,106 +80,91 @@
                 </div>
 
             </div>
-            <b-spinner v-else variant="secondary" class="my-5 mx-auto"></b-spinner>
         </div>
 
     </div>
 </template>
 
-<script>
-import { collection, getDocs } from '@firebase/firestore';
-import { db } from '../firebase/index';
-import { renderBlockMarkdown, renderInlineMarkdown } from '../utils/markdown';
 
-export default {
-    name:'experience',
-    data: ()=>{
-        return {
-            loadingExperiences: false,
-            experiences: [],
-            selected: 0,
-            typed: ["Stay tuned...", "Awesome things are happening.", "Details coming soon."]
-        }
-    },
-    mounted(){
-        let self = this;
-        self.experiences = [];
+<script setup>
+import { ref, onMounted } from 'vue';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '~/utils/firebase';
+import { renderBlockMarkdown, renderInlineMarkdown } from '~/utils/markdown';
 
-        self.loadingExperiences = true;
-        async function getDocsAndInit() {
-            return getDocs(collection(db, 'experiences')).then(async (querySnapshot) => {
-                await Promise.all(querySnapshot.docs.map(async (doc) => {
-                    self.experiences.push (doc.data());
-                }));
-            }).catch(error => {
-                console.log('Experiences query error: ', error);
-            });
-        }
+const selected = ref(0);
+const typed = ["Stay tuned...", "Awesome things are happening.", "Details coming soon."];
 
-        getDocsAndInit().then(()=>{
-            self.experiences.sort((a,b)=> {
-                if ( a.order > b.order )
-                    return -1;
-                if ( a.order < b.order )
-                    return 1;
-                return 0;
-            });
-            self.loadingExperiences = false;
-            self.$forceUpdate();
-            setTimeout(()=>{
-                if(window.innerWidth > 768) {
-                    self.selected = 0;
-                }
-                setTimeout(()=>{
-                    self.checkPending();
-                }, 1000);
-            }, 250);
-        });
-    },
-    methods: {
-        renderMarkdown(md) {
-            return renderBlockMarkdown(md);
-        },
-        renderInline(text) {
-            return renderInlineMarkdown(text);
-        },
-        setSelected(idx) {
-            if(this.selected != idx){
-                this.selected = null;
-                setTimeout(()=>{
-                    this.selected = idx;
-                    setTimeout(()=>{
-                        this.checkPending();
-                    }, 1000);
-                }, 50);
-            }
-        },
-        checkPending() {
-            let item = 0;
-            document.querySelectorAll('.pending-container').forEach(el => {
-                this.typeWriter(el, item);
-            });
-        },
-        typeWriter(el, item) {
-            if (el.innerHTML.length < this.typed[item].length) {
-                el.innerHTML += this.typed[item].charAt(el.innerHTML.length);
-                setTimeout(this.typeWriter.bind(null, el, item), 100);
-            }else{
-                setTimeout(this.clear.bind(null, el, item), 3000);
-            }
-        },
-        clear(el, item) {
-            if (el.innerHTML.length > 0) {
-                el.innerHTML = el.innerHTML.substring(0, el.innerHTML.length-1);
-                setTimeout(this.clear.bind(null, el, item), 50);
-            }else{
-                item++;
-                if(item>this.typed.length-1) item=0;
-                setTimeout(this.typeWriter.bind(null, el, item), 100);
-            }
-        }
+function renderMarkdown(md) {
+    return renderBlockMarkdown(md);
+}
+
+function renderInline(text) {
+    return renderInlineMarkdown(text);
+}
+
+// Fetch at build time (SSG) — data is pre-rendered into HTML for crawlers
+const { data: experiences } = useAsyncData('experiences', async () => {
+    const querySnapshot = await getDocs(collection(db, 'experiences'));
+    const loaded = [];
+    querySnapshot.forEach(doc => loaded.push(doc.data()));
+    loaded.sort((a, b) => {
+        if (a.order > b.order) return -1;
+        if (a.order < b.order) return 1;
+        return 0;
+    });
+    return loaded;
+});
+
+// Fallback to empty array if fetch failed
+if (!experiences.value) experiences.value = [];
+
+function setSelected(idx) {
+    if (selected.value !== idx) {
+        selected.value = null;
+        setTimeout(() => {
+            selected.value = idx;
+            setTimeout(() => {
+                checkPending();
+            }, 1000);
+        }, 50);
     }
 }
+
+function checkPending() {
+    if (typeof document === 'undefined') return;
+    let item = 0;
+    document.querySelectorAll('.pending-container').forEach(el => {
+        typeWriter(el, item);
+    });
+}
+
+function typeWriter(el, item) {
+    if (el.innerHTML.length < typed[item].length) {
+        el.innerHTML += typed[item].charAt(el.innerHTML.length);
+        setTimeout(() => typeWriter(el, item), 100);
+    } else {
+        setTimeout(() => clear(el, item), 3000);
+    }
+}
+
+function clear(el, item) {
+    if (el.innerHTML.length > 0) {
+        el.innerHTML = el.innerHTML.substring(0, el.innerHTML.length - 1);
+        setTimeout(() => clear(el, item), 50);
+    } else {
+        item++;
+        if (item > typed.length - 1) item = 0;
+        setTimeout(() => typeWriter(el, item), 100);
+    }
+}
+
+onMounted(() => {
+    if (typeof window !== 'undefined' && window.innerWidth > 768) {
+        selected.value = 0;
+    }
+    setTimeout(() => checkPending(), 1000);
+});
 </script>
 
 <style scoped>
@@ -296,6 +281,7 @@ export default {
 .project-corner-link:hover .external-icon {
     transform: translate(2px, -2px);
 }
+
 /* ── Role Markdown Content ─────────────────── */
 .role-markdown {
     color: var(--exp-fg);
@@ -303,71 +289,71 @@ export default {
     line-height: 1.75em;
     margin-top: 0.5rem;
 }
-.role-markdown ::v-deep p {
+.role-markdown :deep(p) {
     margin-bottom: 0.85rem;
     line-height: 1.75em;
     color: var(--exp-fg);
 }
-.role-markdown ::v-deep p:last-child {
+.role-markdown :deep(p:last-child) {
     margin-bottom: 0;
 }
-.role-markdown ::v-deep ul,
-.role-markdown ::v-deep ol {
+.role-markdown :deep(ul),
+.role-markdown :deep(ol) {
     list-style: none;
     padding-left: 1.5rem;
     margin-bottom: 0.85rem;
 }
-.role-markdown ::v-deep ul li {
+.role-markdown :deep(ul li) {
     position: relative;
     line-height: 1.75em;
     color: var(--exp-fg);
     margin-bottom: 0.35rem;
 }
-.role-markdown ::v-deep ul li::before {
+.role-markdown :deep(ul li::before) {
     content: "\2022";
     color: var(--exp-sub);
     position: absolute;
     left: -1.25em;
 }
-.role-markdown ::v-deep ol {
+.role-markdown :deep(ol) {
     list-style: decimal;
 }
-.role-markdown ::v-deep ol li {
+.role-markdown :deep(ol li) {
     margin-bottom: 0.35rem;
     color: var(--exp-fg);
 }
-.role-markdown ::v-deep ul ul,
-.role-markdown ::v-deep ol ol,
-.role-markdown ::v-deep ul ol,
-.role-markdown ::v-deep ol ul {
+.role-markdown :deep(ul ul),
+.role-markdown :deep(ol ol),
+.role-markdown :deep(ul ol),
+.role-markdown :deep(ol ul) {
     margin-top: 0.25rem;
     margin-bottom: 0.25rem;
     padding-left: 1.25rem;
 }
-.role-markdown ::v-deep ul ul li::before {
+.role-markdown :deep(ul ul li::before) {
     content: "\25E6";
     color: var(--exp-sub);
 }
-.role-markdown ::v-deep strong,
-.role-markdown ::v-deep b {
+.role-markdown :deep(strong),
+.role-markdown :deep(b) {
     color: var(--exp-fg);
     font-weight: 700;
 }
-.role-markdown ::v-deep em,
-.role-markdown ::v-deep i {
+.role-markdown :deep(em),
+.role-markdown :deep(i) {
     font-style: italic;
 }
-.role-markdown ::v-deep u,
-.role-markdown ::v-deep ins {
+.role-markdown :deep(u),
+.role-markdown :deep(ins) {
     text-decoration: underline;
     text-underline-offset: 3px;
 }
-.role-markdown ::v-deep s,
-.role-markdown ::v-deep del {
+.role-markdown :deep(s),
+.role-markdown :deep(del) {
     text-decoration: line-through;
     opacity: 0.75;
 }
-.role-markdown ::v-deep code {
+.role-markdown :deep(code) {
     background-color: var(--exp-tag-bg);
     color: var(--exp-tab-active-border);
     padding: 2px 6px;
@@ -376,7 +362,7 @@ export default {
     font-family: 'JetBrains Mono', monospace;
     border: 1px solid rgba(255, 255, 255, 0.08);
 }
-.role-markdown ::v-deep pre {
+.role-markdown :deep(pre) {
     background-color: var(--exp-tag-bg);
     padding: 0.85rem 1.1rem;
     border-radius: 8px;
@@ -384,31 +370,31 @@ export default {
     margin-bottom: 0.85rem;
     border: 1px solid rgba(255, 255, 255, 0.08);
 }
-.role-markdown ::v-deep pre code {
+.role-markdown :deep(pre code) {
     background: transparent;
     padding: 0;
     border: none;
     color: var(--exp-fg);
 }
-.role-markdown ::v-deep a {
+.role-markdown :deep(a) {
     color: var(--exp-tab-active-border);
     text-decoration: underline;
     transition: opacity 0.2s ease;
 }
-.role-markdown ::v-deep a:hover {
+.role-markdown :deep(a:hover) {
     opacity: 0.8;
 }
-.role-markdown ::v-deep blockquote {
+.role-markdown :deep(blockquote) {
     border-left: 3px solid var(--exp-tab-active-border);
     padding-left: 1rem;
     margin: 0.85rem 0;
     color: var(--exp-sub);
     font-style: italic;
 }
-.role-markdown ::v-deep h3,
-.role-markdown ::v-deep h4,
-.role-markdown ::v-deep h5,
-.role-markdown ::v-deep h6 {
+.role-markdown :deep(h3),
+.role-markdown :deep(h4),
+.role-markdown :deep(h5),
+.role-markdown :deep(h6) {
     color: var(--exp-fg);
     font-weight: 700;
     margin-top: 1rem;
@@ -433,21 +419,21 @@ export default {
     position: absolute;
     left: -1.25em;
 }
-.role-points-list li ::v-deep strong,
-.role-points-list li ::v-deep b {
+.role-points-list li :deep(strong),
+.role-points-list li :deep(b) {
     color: var(--exp-fg);
     font-weight: 700;
 }
-.role-points-list li ::v-deep em,
-.role-points-list li ::v-deep i {
+.role-points-list li :deep(em),
+.role-points-list li :deep(i) {
     font-style: italic;
 }
-.role-points-list li ::v-deep u,
-.role-points-list li ::v-deep ins {
+.role-points-list li :deep(u),
+.role-points-list li :deep(ins) {
     text-decoration: underline;
     text-underline-offset: 3px;
 }
-.role-points-list li ::v-deep code {
+.role-points-list li :deep(code) {
     background-color: var(--exp-tag-bg);
     color: var(--exp-tab-active-border);
     padding: 2px 6px;
@@ -456,7 +442,7 @@ export default {
     font-family: 'JetBrains Mono', monospace;
     border: 1px solid rgba(255, 255, 255, 0.08);
 }
-.role-points-list li ::v-deep a {
+.role-points-list li :deep(a) {
     color: var(--exp-tab-active-border);
     text-decoration: underline;
 }
@@ -523,13 +509,8 @@ export default {
     .details-container {
         max-width: 40vw;
     }
-
 }
 
-/* Large devices (desktops, 992px and up) */
-@media (min-width: 992px) {
-    
-}
 @keyframes blink-caret {
   from, to { background-color: transparent }
   50% { background-color: var(--exp-tab-active-border); }

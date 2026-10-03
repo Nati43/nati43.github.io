@@ -1,5 +1,5 @@
 <template>
-  <div class="theme-switcher" v-click-outside="close">
+  <div class="theme-switcher" ref="switcherRef">
     <!-- Trigger icon -->
     <button class="palette-btn" @click="toggleOpen" :title="'Current: ' + currentThemeName" :class="{ open: isOpen }">
       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="palette-icon">
@@ -30,59 +30,65 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'ThemeSwitcher',
-  directives: {
-    'click-outside': {
-      bind(el, binding) {
-        el._outsideClickHandler = (e) => {
-          if (!el.contains(e.target)) binding.value();
-        };
-        document.addEventListener('click', el._outsideClickHandler);
-      },
-      unbind(el) {
-        document.removeEventListener('click', el._outsideClickHandler);
-      }
-    }
-  },
-  data() {
-    return {
-      isOpen: false,
-      currentTheme: 'tokyo-night',
-      themes: [
-        { id: 'original',    label: 'Original',    color: '#FF7F50' },
-        { id: 'dracula',     label: 'Dracula',     color: '#BD93F9' },
-        { id: 'tokyo-night', label: 'Tokyo Night', color: '#7AA2F7' }
-      ]
-    };
-  },
-  computed: {
-    currentThemeName() {
-      const t = this.themes.find(t => t.id === this.currentTheme);
-      return t ? t.label : '';
-    }
-  },
-  mounted() {
-    const saved = localStorage.getItem('user-theme') || 'tokyo-night';
-    this.selectTheme(saved);
-  },
-  methods: {
-    toggleOpen() {
-      this.isOpen = !this.isOpen;
-    },
-    close() {
-      this.isOpen = false;
-    },
-    selectTheme(themeId) {
-      this.currentTheme = themeId;
-      document.documentElement.setAttribute('data-theme', themeId);
-      localStorage.setItem('user-theme', themeId);
-      this.isOpen = false;
-      this.$emit('theme-changed', themeId);
-    }
+<script setup>
+import { ref, computed, onMounted, onUnmounted } from 'vue';
+
+const emit = defineEmits(['theme-changed']);
+
+const switcherRef = ref(null);
+const isOpen = ref(false);
+const currentTheme = ref('tokyo-night');
+
+const themes = [
+  { id: 'original',    label: 'Original',    color: '#FF7F50' },
+  { id: 'dracula',     label: 'Dracula',     color: '#BD93F9' },
+  { id: 'tokyo-night', label: 'Tokyo Night', color: '#7AA2F7' }
+];
+
+const currentThemeName = computed(() => {
+  const t = themes.find(t => t.id === currentTheme.value);
+  return t ? t.label : '';
+});
+
+function toggleOpen() {
+  isOpen.value = !isOpen.value;
+}
+
+function close() {
+  isOpen.value = false;
+}
+
+function selectTheme(themeId) {
+  currentTheme.value = themeId;
+  if (typeof document !== 'undefined') {
+    document.documentElement.setAttribute('data-theme', themeId);
   }
-};
+  if (typeof localStorage !== 'undefined') {
+    localStorage.setItem('user-theme', themeId);
+  }
+  isOpen.value = false;
+  emit('theme-changed', themeId);
+}
+
+function handleOutsideClick(e) {
+  if (switcherRef.value && !switcherRef.value.contains(e.target)) {
+    close();
+  }
+}
+
+onMounted(() => {
+  if (typeof localStorage !== 'undefined') {
+    const saved = localStorage.getItem('user-theme') || 'tokyo-night';
+    selectTheme(saved);
+  }
+  document.addEventListener('click', handleOutsideClick);
+});
+
+onUnmounted(() => {
+  if (typeof document !== 'undefined') {
+    document.removeEventListener('click', handleOutsideClick);
+  }
+});
 </script>
 
 <style scoped>
@@ -188,7 +194,7 @@ export default {
 .fade-drop-leave-active {
   transition: opacity 0.18s ease, transform 0.18s ease;
 }
-.fade-drop-enter,
+.fade-drop-enter-from,
 .fade-drop-leave-to {
   opacity: 0;
   transform: translateY(-6px) scale(0.97);

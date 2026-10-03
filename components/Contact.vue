@@ -1,7 +1,7 @@
 <template>
     <div id="contact" class="p-0 m-0 d-flex flex-row flex-wrap align-items-center section overflow-hidden position-relative">
 
-        <b-card bg-variant="transparent" style="z-index:2" class="border-0 pt-5 pt-md-0 px-5 m-0 rounded-0 flex-grow-1 d-flex left-card" no-body >
+        <div style="z-index:2" class="card bg-transparent border-0 pt-5 pt-md-0 px-5 m-0 rounded-0 flex-grow-1 d-flex left-card">
             <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-start px-3 px-md-5 py-md-5 text-custome-light text-center">
                 <div class="">
                     <p class="mt-4 text text-left">
@@ -43,37 +43,34 @@
                         inkscape:connector-curvature="0" />
                 </svg>
             </div>
-        </b-card>
+        </div>
 
-        <b-card bg-variant="transparent" style="z-index:2" class="border-0 p-0 m-0 rounded-0 flex-grow-1 right-card" no-body >
+        <div style="z-index:2" class="card bg-transparent border-0 p-0 m-0 rounded-0 flex-grow-1 right-card">
             <div class="flex-grow-1 d-flex flex-column align-items-center align-items-md-start justify-content-center py-5 text-left">
                 <p class="text text-custome-light mt-4"> Tell me about it.. </p>
                 <form class="contact-form d-flex flex-column" action="https://formspree.io/natnael0meseret@gmail.com" method="POST">
-                    <b-form-group id="input-group-1" label-for="input-1" >
-                        <b-form-input id="input-1" name="name"  type="text" required placeholder="Name" class="border-0 p-4 shadow-sm input"> </b-form-input>
-                    </b-form-group>
+                    <div class="form-group mb-3" id="input-group-1">
+                        <input id="input-1" name="name" type="text" required placeholder="Name" class="border-0 p-4 shadow-sm input form-control" />
+                    </div>
                     
-                    <b-form-group id="input-group-2" label-for="input-2" description="Please use your own email so that I can reach you.">
-                        <b-form-input id="input-2" name="email"  type="email" required placeholder="Enter email" class="border-0 p-4 shadow-sm input"> </b-form-input>
-                    </b-form-group>
+                    <div class="form-group mb-3" id="input-group-2">
+                        <input id="input-2" name="email" type="email" required placeholder="Enter email" class="border-0 p-4 shadow-sm input form-control" />
+                        <small class="form-text text-muted px-2">Please use your own email so that I can reach you.</small>
+                    </div>
                     
-                    <b-form-group id="input-group-3" label-for="input-3">
-                        <b-form-textarea id="input-3" name="message" placeholder="Message" rows="5" class="border-0 p-4 shadow-sm input"> </b-form-textarea>
-                    </b-form-group>
+                    <div class="form-group mb-3" id="input-group-3">
+                        <textarea id="input-3" name="message" placeholder="Message" rows="5" class="border-0 p-4 shadow-sm input form-control"></textarea>
+                    </div>
 
-                    <b-button type="submit" class="send-btn align-self-end py-2 px-5 font-weight-bold px-4 mt-4">Send</b-button>
+                    <button type="submit" class="btn send-btn align-self-end py-2 px-5 font-weight-bold px-4 mt-4">Send</button>
                 </form>
             </div>
-        </b-card>
+        </div>
 
     </div>
 </template>
 
-<script>
-/* eslint-disable */
-export default {
-    mounted() {}
-}
+<script setup>
 </script>
 
 <style scoped>

@@ -120,7 +120,7 @@
             <!-- Glasses Frame with Cyan Monitor Reflection -->
             <rect x="172" y="136" width="10" height="8" rx="2.5" stroke="#1f2335" stroke-width="1.8" fill="rgba(122, 162, 247, 0.25)" />
             <line x1="168" y1="139" x2="172" y2="139" stroke="#1f2335" stroke-width="1.5" />
-            <line x1="174" y1="138" x2="179" y2="142" stroke="rgba(255, 255, 255, 0.75)" stroke-width="1" stroke-linecap="round" />
+            <line x1="174" y1="138" x2="179" y2="142" stroke="rgba(255, 255, 255, 0.75)" stroke-linecap="round" />
           </g>
 
           <!-- Left Arm (Typing naturally on Keyboard) -->
@@ -197,169 +197,153 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'Loader',
-  data() {
-    return {
-      isOverflowing: false,
-      isFading: false,
-      animId: null,
-      timer1: null,
-      timer2: null,
-      timer3: null
-    };
-  },
-  mounted() {
-    this.initPhysics();
+<script setup>
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 
-    // 1. Trigger code overflow at 0.5s
-    this.timer1 = setTimeout(() => {
-      this.isOverflowing = true;
-    }, 500);
+const emit = defineEmits(['done']);
 
-    // 2. Trigger overlay curtain slide-up at 2.4s
-    this.timer2 = setTimeout(() => {
-      this.isFading = true;
-    }, 2400);
+const canvas = ref(null);
+const flaskMouth = ref(null);
+const isOverflowing = ref(false);
+const isFading = ref(false);
 
-    // 3. Complete and unmount loader at 3.0s total!
-    this.timer3 = setTimeout(() => {
-      this.$emit('done');
-    }, 3000);
-  },
-  beforeDestroy() {
-    if (this.animId) cancelAnimationFrame(this.animId);
-    if (this.timer1) clearTimeout(this.timer1);
-    if (this.timer2) clearTimeout(this.timer2);
-    if (this.timer3) clearTimeout(this.timer3);
-  },
-  methods: {
-    initPhysics() {
-      const canvas = this.$refs.canvas;
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
+let animId = null;
+let timer1 = null;
+let timer2 = null;
+let timer3 = null;
 
-      let width = (canvas.width = window.innerWidth);
-      let height = (canvas.height = window.innerHeight);
+function initPhysics() {
+  const c = canvas.value;
+  if (!c) return;
+  const ctx = c.getContext('2d');
+  if (!ctx) return;
 
-      const handleResize = () => {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-      };
-      window.addEventListener('resize', handleResize);
+  let width = (c.width = window.innerWidth);
+  let height = (c.height = window.innerHeight);
 
-      // Multi-Language Code Tokens Pool (Elixir, Go, JS/TS)
-      const codeTokens = [
-        // Elixir
-        'def', 'fn', '|>', ':ok', '%{}', 'Enum', 'mix', 'GenServer', 'Task',
-        // Go
-        'func', 'go', 'chan', 'err != nil', 'struct', 'defer',
-        // JavaScript / TypeScript
-        'const', 'await', 'async', '=>', 'import', 'Promise', 'type'
-      ];
-      const tokenColors = [
-        '#ff79c6', // Pink (Elixir/JS)
-        '#bd93f9', // Purple (Elixir)
-        '#7aa2f7', // Electric Blue (Go/TS)
-        '#7dcfff', // Ice Cyan (Go/Elixir)
-        '#9ece6a', // Lime Green (JS/Elixir)
-        '#ff9e64'  // Warm Orange (JS)
-      ];
+  const handleResize = () => {
+    width = c.width = window.innerWidth;
+    height = c.height = window.innerHeight;
+  };
+  window.addEventListener('resize', handleResize);
 
-      let codeParticles = [];
-      let frameCounter = 0;
+  const codeTokens = [
+    'def', 'fn', '|>', ':ok', '%{}', 'Enum', 'mix', 'GenServer', 'Task',
+    'func', 'go', 'chan', 'err != nil', 'struct', 'defer',
+    'const', 'await', 'async', '=>', 'import', 'Promise', 'type'
+  ];
+  const tokenColors = [
+    '#ff79c6', '#bd93f9', '#7aa2f7', '#7dcfff', '#9ece6a', '#ff9e64'
+  ];
 
-      const animate = () => {
-        ctx.clearRect(0, 0, width, height);
+  let codeParticles = [];
+  let frameCounter = 0;
 
-        // Dynamically compute exact viewport pixel location of the SVG flask mouth
-        let flaskMouthX = width / 2 + 38; 
-        let flaskMouthY = height / 2 + 22;
+  const animate = () => {
+    ctx.clearRect(0, 0, width, height);
 
-        if (this.$refs.flaskMouth) {
-          const rect = this.$refs.flaskMouth.getBoundingClientRect();
-          if (rect.width > 0 && rect.height > 0) {
-            flaskMouthX = rect.left + rect.width / 2;
-            flaskMouthY = rect.top + rect.height / 2;
-          }
-        }
+    let flaskMouthX = width / 2 + 38; 
+    let flaskMouthY = height / 2 + 22;
 
-        frameCounter++;
-
-        // --- EMIT CODE TOKENS (Floating upward directly from the flask mouth) ---
-        if (this.isOverflowing && frameCounter % 9 === 0) {
-          const side = Math.random() > 0.5 ? -1 : 1;
-          const token = codeTokens[Math.floor(Math.random() * codeTokens.length)];
-          const color = tokenColors[Math.floor(Math.random() * tokenColors.length)];
-
-          codeParticles.push({
-            text: token,
-            x: flaskMouthX + (Math.random() - 0.5) * 6,
-            y: flaskMouthY,
-            spawnY: flaskMouthY,
-            vx: side * (0.25 + Math.random() * 0.6),
-            vy: -1.3 - Math.random() * 0.9, // Upward floating velocity
-            rot: (Math.random() - 0.5) * 0.15,
-            vRot: (Math.random() - 0.5) * 0.015,
-            fontSize: 12 + Math.floor(Math.random() * 4),
-            scale: 0.85,
-            alpha: 0,
-            color: color
-          });
-        }
-
-        // --- UPDATE & DRAW CODE PARTICLES (Smoke Drift & Dissolve to Top) ---
-        for (let i = codeParticles.length - 1; i >= 0; i--) {
-          const p = codeParticles[i];
-          p.x += p.vx + Math.sin((p.spawnY - p.y) * 0.04) * 0.5; // Natural smoke waft
-          p.y += p.vy;
-          p.vy -= 0.015; // Upward smoke buoyancy
-          p.rot += p.vRot;
-          p.scale += 0.004; // Expands slightly as smoke diffuses
-
-          // Fade in as it emerges from flask mouth, then dissolve as it floats up
-          const riseDist = p.spawnY - p.y;
-          if (riseDist < 20) {
-            p.alpha = Math.min(1, riseDist / 14);
-          } else if (riseDist > 55) {
-            // Dissolve into the air as it rises to the top
-            p.alpha -= 0.022;
-          }
-
-          if (p.alpha <= 0 || p.y <= 0) {
-            codeParticles.splice(i, 1);
-            continue;
-          }
-
-          ctx.save();
-          ctx.globalAlpha = Math.max(0, p.alpha);
-          ctx.translate(p.x, p.y);
-          ctx.rotate(p.rot);
-          ctx.scale(p.scale, p.scale);
-
-          ctx.font = `700 ${p.fontSize}px 'JetBrains Mono', 'Fira Code', monospace`;
-          ctx.fillStyle = p.color;
-          ctx.shadowColor = p.color;
-          ctx.shadowBlur = 10;
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-
-          ctx.fillText(p.text, 0, 0);
-          ctx.restore();
-        }
-
-        this.animId = requestAnimationFrame(animate);
-      };
-
-      this.animId = requestAnimationFrame(animate);
+    if (flaskMouth.value) {
+      const rect = flaskMouth.value.getBoundingClientRect();
+      if (rect.width > 0 && rect.height > 0) {
+        flaskMouthX = rect.left + rect.width / 2;
+        flaskMouthY = rect.top + rect.height / 2;
+      }
     }
-  }
-};
+
+    frameCounter++;
+
+    if (isOverflowing.value && frameCounter % 9 === 0) {
+      const side = Math.random() > 0.5 ? -1 : 1;
+      const token = codeTokens[Math.floor(Math.random() * codeTokens.length)];
+      const color = tokenColors[Math.floor(Math.random() * tokenColors.length)];
+
+      codeParticles.push({
+        text: token,
+        x: flaskMouthX + (Math.random() - 0.5) * 6,
+        y: flaskMouthY,
+        spawnY: flaskMouthY,
+        vx: side * (0.25 + Math.random() * 0.6),
+        vy: -1.3 - Math.random() * 0.9,
+        rot: (Math.random() - 0.5) * 0.15,
+        vRot: (Math.random() - 0.5) * 0.015,
+        fontSize: 12 + Math.floor(Math.random() * 4),
+        scale: 0.85,
+        alpha: 0,
+        color: color
+      });
+    }
+
+    for (let i = codeParticles.length - 1; i >= 0; i--) {
+      const p = codeParticles[i];
+      p.x += p.vx + Math.sin((p.spawnY - p.y) * 0.04) * 0.5;
+      p.y += p.vy;
+      p.vy -= 0.015;
+      p.rot += p.vRot;
+      p.scale += 0.004;
+
+      const riseDist = p.spawnY - p.y;
+      if (riseDist < 20) {
+        p.alpha = Math.min(1, riseDist / 14);
+      } else if (riseDist > 55) {
+        p.alpha -= 0.022;
+      }
+
+      if (p.alpha <= 0 || p.y <= 0) {
+        codeParticles.splice(i, 1);
+        continue;
+      }
+
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, p.alpha);
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.scale(p.scale, p.scale);
+
+      ctx.font = `700 ${p.fontSize}px 'JetBrains Mono', 'Fira Code', monospace`;
+      ctx.fillStyle = p.color;
+      ctx.shadowColor = p.color;
+      ctx.shadowBlur = 10;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+
+      ctx.fillText(p.text, 0, 0);
+      ctx.restore();
+    }
+
+    animId = requestAnimationFrame(animate);
+  };
+
+  animId = requestAnimationFrame(animate);
+}
+
+onMounted(() => {
+  initPhysics();
+
+  timer1 = setTimeout(() => {
+    isOverflowing.value = true;
+  }, 500);
+
+  timer2 = setTimeout(() => {
+    isFading.value = true;
+  }, 2400);
+
+  timer3 = setTimeout(() => {
+    emit('done');
+  }, 3000);
+});
+
+onBeforeUnmount(() => {
+  if (animId && typeof cancelAnimationFrame !== 'undefined') cancelAnimationFrame(animId);
+  if (timer1) clearTimeout(timer1);
+  if (timer2) clearTimeout(timer2);
+  if (timer3) clearTimeout(timer3);
+});
 </script>
 
 <style scoped>
-/* Fullscreen Overlay */
 .loader-overlay {
   position: fixed;
   top: 0;
@@ -392,7 +376,6 @@ export default {
   z-index: 1;
 }
 
-/* Alchemist Scene Container */
 .alchemist-scene {
   position: relative;
   z-index: 2;
@@ -414,7 +397,6 @@ export default {
   100% { transform: translate(1px, -1px); }
 }
 
-/* Ambient Lamp Glow */
 .lamp-glow {
   position: absolute;
   left: 60px;
@@ -431,7 +413,6 @@ export default {
   100% { transform: scale(1.12); opacity: 1; }
 }
 
-/* Alchemist SVG Illustration */
 .alchemist-svg {
   width: 400px;
   height: 280px;
@@ -439,7 +420,6 @@ export default {
   overflow: visible;
 }
 
-/* Monitor Screen Animations */
 .code-line {
   animation: code-shimmer 1.8s ease-in-out infinite alternate;
   transform-origin: left center;
@@ -457,7 +437,6 @@ export default {
   100% { opacity: 0.7; transform: scaleX(0.95); }
 }
 
-/* Character Lifelike Micro-Animations */
 .left-arm-typing {
   animation: typing-motion 0.22s ease-in-out infinite alternate;
   transform-origin: 154px 174px;
@@ -502,7 +481,6 @@ export default {
   100% { transform: translateY(68px); opacity: 0.1; }
 }
 
-/* Liquid Fill Animation */
 .liquid-fill-anim {
   animation: fill-up 1.0s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
@@ -511,7 +489,6 @@ export default {
   100% { transform: translateY(0); }
 }
 
-/* Churning Surface Wave */
 .wave-surface {
   animation: wave-motion 0.5s ease-in-out infinite alternate;
 }
@@ -520,7 +497,6 @@ export default {
   100% { transform: translateY(-3px) scaleY(1.3); }
 }
 
-/* Bubbles */
 .bubble {
   animation: bubble-float 1.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
@@ -534,7 +510,6 @@ export default {
   100% { transform: translateY(-50px) scale(1.2); opacity: 0; }
 }
 
-/* Mouth Overboil Rim */
 .mouth-spill-group {
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -543,7 +518,6 @@ export default {
   opacity: 1;
 }
 
-/* Subtitle Label */
 .brew-label {
   margin-top: 10px;
   z-index: 2;

@@ -6,7 +6,7 @@
         </div>
 
         <div class="d-flex flex-row align-items-center justify-content-center flex-grow-1 pb-4 p-md-0 mx-auto w-100">
-            <div v-if="!loadingToolbox" class="toolbox-layout d-flex flex-column flex-lg-row align-items-center justify-content-center mx-auto px-3 w-100">
+            <div v-if="items && items.length" class="toolbox-layout d-flex flex-column flex-lg-row align-items-center justify-content-center mx-auto px-3 w-100">
                 
                 <!-- Left Pane: 2x2 Category Grid (Backend Prioritized First) -->
                 <div class="categories-grid">
@@ -16,10 +16,10 @@
                             <span class="cat-pill cat-be">Backend</span>
                         </div>
                         <div class="chips-wrap">
-                            <div v-for="(item, idx) in items.filter(x => x.category == categories['Backend'])"
+                            <div v-for="(item, idx) in items.filter(x => x.category === categories['Backend'])"
                                 :key="'be-' + idx" @click="changeSelected(item)">
                                 <div class="highlights py-2 px-3 m-1 btn chip-btn"
-                                    :class="{'active-chip': selected == item}">
+                                    :class="{'active-chip': selected === item}">
                                     <span class="h6 font-weight-bold mb-0">{{ item.name }}</span>
                                 </div>
                             </div>
@@ -32,10 +32,10 @@
                             <span class="cat-pill cat-db">Database</span>
                         </div>
                         <div class="chips-wrap">
-                            <div v-for="(item, idx) in items.filter(x => x.category == categories['Database'])"
+                            <div v-for="(item, idx) in items.filter(x => x.category === categories['Database'])"
                                 :key="'db-' + idx" @click="changeSelected(item)">
                                 <div class="highlights py-2 px-3 m-1 btn chip-btn"
-                                    :class="{'active-chip': selected == item}">
+                                    :class="{'active-chip': selected === item}">
                                     <span class="h6 font-weight-bold mb-0">{{ item.name }}</span>
                                 </div>
                             </div>
@@ -48,26 +48,26 @@
                             <span class="cat-pill cat-fe">Frontend</span>
                         </div>
                         <div class="chips-wrap">
-                            <div v-for="(item, idx) in items.filter(x => x.category == categories['Frontend'])"
+                            <div v-for="(item, idx) in items.filter(x => x.category === categories['Frontend'])"
                                 :key="'fe-' + idx" @click="changeSelected(item)">
                                 <div class="highlights py-2 px-3 m-1 btn chip-btn"
-                                    :class="{'active-chip': selected == item}">
+                                    :class="{'active-chip': selected === item}">
                                     <span class="h6 font-weight-bold mb-0">{{ item.name }}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- 4. DevOps & Other -->
+                    <!-- 4. Other / DevOps -->
                     <div class="category-card">
                         <div class="category-header">
-                            <span class="cat-pill cat-other">DevOps & Other</span>
+                            <span class="cat-pill cat-other">DevOps &amp; Tools</span>
                         </div>
                         <div class="chips-wrap">
-                            <div v-for="(item, idx) in items.filter(x => x.category == categories['Other'])"
+                            <div v-for="(item, idx) in items.filter(x => x.category === categories['Other'])"
                                 :key="'ot-' + idx" @click="changeSelected(item)">
                                 <div class="highlights py-2 px-3 m-1 btn chip-btn"
-                                    :class="{'active-chip': selected == item}">
+                                    :class="{'active-chip': selected === item}">
                                     <span class="h6 font-weight-bold mb-0">{{ item.name }}</span>
                                 </div>
                             </div>
@@ -75,7 +75,7 @@
                     </div>
                 </div>
 
-                <!-- Right Pane: Terminal Window -->
+                <!-- Right Pane: Centered Interactive Terminal (Mac Window Style) -->
                 <div class="terminal-pane">
                     <transition name="terminal-fade">
                         <div id="description-box" class="terminal-window" v-if="selected">
@@ -107,9 +107,7 @@
                                 </div>
                                 <!-- Icon -->
                                 <div v-if="!isTypingPoints && selected.icon" class="terminal-icon-row mt-2">
-                                    <b-img :src="selected.icon" class="terminal-icon" alt="icon">
-                                        <b-spinner small />
-                                    </b-img>
+                                    <img :src="selected.icon" class="terminal-icon" alt="icon" />
                                 </div>
                             </div>
                         </div>
@@ -117,173 +115,105 @@
                 </div>
 
             </div>
-            <b-spinner v-else variant="secondary" class="my-5"></b-spinner>
         </div>
 
     </div>
 </template>
 
-<script>
-import { collection, getDocs } from '@firebase/firestore';
-import { getDownloadURL, ref } from '@firebase/storage';
-import { db, storage } from '../firebase/index';
-export default {
-    name:"wiu",
-    data: ()=>{
-        return {
-            items: [],
-            categories: {
-                'Frontend': 0,
-                'Backend': 1,
-                'Database': 2,
-                'Other': 3,
-            },
-            selected: null,
-            windowWidth: window.innerWidth,
-            loadingToolbox: false,
-            // Typewriter state
-            typedDescription: '',
-            isTyping: false,
-            visiblePoints: [],
-            isTypingPoints: false,
-            _typeTimer: null,
-        }
-    },
-    watch: {
-        selected(newVal) {
-            // Reset and restart typewriter whenever selection changes
-            this.typedDescription = '';
-            this.isTyping = false;
-            this.visiblePoints = [];
-            this.isTypingPoints = false;
-            if (this._typeTimer) { clearTimeout(this._typeTimer); this._typeTimer = null; }
-            if (newVal) {
-                this.$nextTick(() => this.startTypewriter());
-            }
-        }
-    },
-    async mounted() {
-        await this.getDocsAndInit();
-    },
-    methods: {
-        async getDocsAndInit() {
-            this.items = [];
-            this.loadingToolbox = true;
-            try {
-                const querySnapshot = await getDocs(collection(db, 'toolbox'));
-                const fetchedItems = await Promise.all(
-                    querySnapshot.docs
-                        .map(doc => doc.data())
-                        .filter(data => data && data.show)
-                        .map(async (data) => {
-                            let iconUrl = null;
-                            if (data.icon) {
-                                try {
-                                    iconUrl = await getDownloadURL(ref(storage, 'icons/' + data.icon + '.svg'));
-                                } catch (error) {
-                                    iconUrl = null;
-                                }
-                            }
-                            return {
-                                name: data.name,
-                                category: data.category,
-                                icon: iconUrl,
-                                description: data.description,
-                                points: data.points,
-                                order: data.order,
-                                default: data.default,
-                            };
-                        })
-                );
+<script setup>
+import { ref, watch, nextTick, onMounted, onBeforeUnmount } from 'vue';
+import { collection, getDocs } from 'firebase/firestore';
+import { getDownloadURL, ref as storageRef } from 'firebase/storage';
+import { db, storage } from '~/utils/firebase';
 
-                fetchedItems.sort((a, b) => {
-                    const orderA = a.order !== undefined ? a.order : 0;
-                    const orderB = b.order !== undefined ? b.order : 0;
-                    return orderA - orderB;
-                });
+const categories = { 'Frontend': 0, 'Backend': 1, 'Database': 2, 'Other': 3 };
 
-                this.items = fetchedItems;
+const selected = ref(null);
+const typedDescription = ref('');
+const isTyping = ref(false);
+const visiblePoints = ref([]);
+const isTypingPoints = ref(false);
+let typeTimer = null;
 
-                if (window.innerWidth > 768 && this.items.length > 0) {
-                    const defaultItem = this.items.find(item => item.default) ||
-                                        this.items.find(item => item.category == this.categories['Backend']) ||
-                                        this.items[0];
-                    this.selected = defaultItem;
+// Fetch at build time — baked into pre-rendered HTML for crawlers
+const { data: items } = useAsyncData('toolbox', async () => {
+    const querySnapshot = await getDocs(collection(db, 'toolbox'));
+    const fetched = await Promise.all(
+        querySnapshot.docs
+            .map(doc => doc.data())
+            .filter(data => data && data.show)
+            .map(async (data) => {
+                let iconUrl = null;
+                if (data.icon) {
+                    try { iconUrl = await getDownloadURL(storageRef(storage, 'icons/' + data.icon + '.svg')); } catch { /* no icon */ }
                 }
-            } catch (error) {
-                console.error('Toolbox query error: ', error);
-            } finally {
-                this.loadingToolbox = false;
-            }
-        },
-        changeSelected(obj) {
-            if(this.selected != obj){
-                this.selected = null;
-                if (this._typeTimer) { clearTimeout(this._typeTimer); this._typeTimer = null; }
-                setTimeout(()=>{
-                    this.selected = obj;
-                    this.$forceUpdate();
-                    if(window.innerWidth < 768)
-                        setTimeout(()=>{
-                            window.scrollTo({
-                                top: document.getElementById('description-box').getBoundingClientRect().top + window.pageYOffset - 250,
-                                behavior: 'smooth'
-                            });
-                        }, 50)
-                }, 250);
-            }
-        },
-        startTypewriter() {
-            const desc = this.selected && this.selected.description ? this.selected.description : '';
-            const points = this.selected && this.selected.points ? this.selected.points : [];
-            this.typedDescription = '';
-            this.isTyping = true;
-            this.visiblePoints = [];
-            this.isTypingPoints = false;
+                return { name: data.name, category: data.category, icon: iconUrl, description: data.description, points: data.points, order: data.order, default: data.default };
+            })
+    );
+    fetched.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+    return fetched;
+});
+if (!items.value) items.value = [];
 
-            let i = 0;
-            const typeChar = () => {
-                if (!this.selected) return;
-                if (i < desc.length) {
-                    this.typedDescription += desc.charAt(i);
-                    i++;
-                    this._typeTimer = setTimeout(typeChar, 18);
-                } else {
-                    this.isTyping = false;
-                    if (points.length) {
-                        this.$nextTick(() => this.typePoints(points, 0));
-                    }
-                }
-            };
-            this._typeTimer = setTimeout(typeChar, 120);
-        },
-        typePoints(points, idx) {
-            if (!this.selected || idx >= points.length) {
-                this.isTypingPoints = false;
-                return;
+watch(selected, (newVal) => {
+    typedDescription.value = '';
+    isTyping.value = false;
+    visiblePoints.value = [];
+    isTypingPoints.value = false;
+    if (typeTimer) { clearTimeout(typeTimer); typeTimer = null; }
+    if (newVal) nextTick(() => startTypewriter());
+});
+
+function changeSelected(obj) {
+    if (selected.value !== obj) {
+        selected.value = null;
+        if (typeTimer) { clearTimeout(typeTimer); typeTimer = null; }
+        setTimeout(() => {
+            selected.value = obj;
+            if (typeof window !== 'undefined' && window.innerWidth < 768) {
+                setTimeout(() => {
+                    const descEl = document.getElementById('description-box');
+                    if (descEl) window.scrollTo({ top: descEl.getBoundingClientRect().top + window.pageYOffset - 250, behavior: 'smooth' });
+                }, 50);
             }
-            this.isTypingPoints = true;
-            const point = points[idx];
-            let typed = '';
-            let i = 0;
-            this.visiblePoints.splice(idx, 1, '');
-            const typeChar = () => {
-                if (!this.selected) return;
-                if (i < point.length) {
-                    typed += point.charAt(i);
-                    this.$set(this.visiblePoints, idx, typed);
-                    i++;
-                    this._typeTimer = setTimeout(typeChar, 14);
-                } else {
-                    this._typeTimer = setTimeout(() => this.typePoints(points, idx + 1), 80);
-                }
-            };
-            typeChar();
-        }
+        }, 250);
     }
 }
-</script>
 
+function startTypewriter() {
+    const desc = selected.value?.description ?? '';
+    const points = selected.value?.points ?? [];
+    typedDescription.value = ''; isTyping.value = true; visiblePoints.value = []; isTypingPoints.value = false;
+    let i = 0;
+    const typeChar = () => {
+        if (!selected.value) return;
+        if (i < desc.length) { typedDescription.value += desc.charAt(i++); typeTimer = setTimeout(typeChar, 18); }
+        else { isTyping.value = false; if (points.length) nextTick(() => typePoints(points, 0)); }
+    };
+    typeTimer = setTimeout(typeChar, 120);
+}
+
+function typePoints(points, idx) {
+    if (!selected.value || idx >= points.length) { isTypingPoints.value = false; return; }
+    isTypingPoints.value = true;
+    const point = points[idx]; let typed = ''; let i = 0;
+    visiblePoints.value[idx] = '';
+    const typeChar = () => {
+        if (!selected.value) return;
+        if (i < point.length) { typed += point.charAt(i++); visiblePoints.value[idx] = typed; typeTimer = setTimeout(typeChar, 14); }
+        else typeTimer = setTimeout(() => typePoints(points, idx + 1), 80);
+    };
+    typeChar();
+}
+
+onMounted(() => {
+    if (typeof window !== 'undefined' && window.innerWidth > 768 && items.value.length > 0) {
+        selected.value = items.value.find(i => i.default) || items.value.find(i => i.category === categories['Backend']) || items.value[0];
+    }
+});
+
+onBeforeUnmount(() => { if (typeTimer) clearTimeout(typeTimer); });
+</script>
 
 <style scoped>
 .title-large {
@@ -536,7 +466,7 @@ export default {
 .terminal-fade-leave-active {
     transition: opacity 0.15s ease, transform 0.15s ease;
 }
-.terminal-fade-enter,
+.terminal-fade-enter-from,
 .terminal-fade-leave-to {
     opacity: 0;
     transform: scale(0.96) translateY(6px);

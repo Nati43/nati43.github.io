@@ -1,20 +1,18 @@
 <template>
     <div class="p-0 m-0 d-flex flex-row align-items-stretch section overflow-hidden position-relative" id="intro">
 
-        <b-card style="z-index:2"
-            bg-variant="transparent"
-            class="border-0 p-0 m-0 rounded-0 flex-grow-1 d-flex left-card"
-            no-body >
+        <div style="z-index:2"
+            class="card bg-transparent border-0 p-0 m-0 rounded-0 flex-grow-1 d-flex left-card">
             <div class="flex-grow-1 d-flex flex-column justify-content-end px-3 px-md-5 py-5 text-custome-light text-left">
                 <div class="d-flex align-items-center">
                     <div>
                         <small class="my-2 h4" style="color: var(--intro-accent); font-weight: 300;"> Hi, my name is </small>
-                        <b-card-title class="title mb-4">Natnael Meseret.</b-card-title>
+                        <h2 class="title mb-4">Natnael Meseret.</h2>
                     </div>
                     <div class="avatar shadow-sm mr-3 d-md-none"></div>
                 </div>
                 <small class="mb-2 h4" style="color: var(--intro-accent); font-weight: 300;">I'm a</small>
-                <b-card-title class="title-2 mb-4">Software Engineer.</b-card-title>
+                <h3 class="title-2 mb-4">Software Engineer.</h3>
                 <div class="subtitle mb-md-4 mt-3">
                     <div style="min-height: 125px;">
                         I have this habit of drinking
@@ -30,7 +28,7 @@
                         </svg>
                         and then
                         <div class="d-inline" style="min-height: 50px;">
-                            <span id="typed"></span>
+                            <span>{{ typedText }}</span>
                             <span class="font-weight-bold d-inline-block mx-1 blink" style="width: .25em; height: .8em; "></span>
                         </div>
                     </div>
@@ -39,72 +37,76 @@
                 </div>
                 
                 <div class="avatar-container d-md-none my-3 mt-5 d-flex align-items-center justify-content-between">
-                    <b-link class="icon github ml-3" target="_blank" href="https://github.com/Nati43"></b-link>
-                    <b-link class="icon linkedin ml-3" target="_blank" href="https://www.linkedin.com/in/natnael-meseret-a195b8141"></b-link>
-                    <b-link class="icon message ml-3" href="#contact"></b-link>
-                    <b-link class="icon pdf ml-4 mr-3" target="_blank" href="/Resume.pdf"></b-link>
+                    <a class="icon github ml-3" target="_blank" rel="noopener noreferrer" href="https://github.com/Nati43"></a>
+                    <a class="icon linkedin ml-3" target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/natnael-meseret-a195b8141"></a>
+                    <a class="icon message ml-3" href="#contact"></a>
+                    <a class="icon pdf ml-4 mr-3" target="_blank" rel="noopener noreferrer" href="/Resume.pdf"></a>
                 </div>
                 <div class="icons d-flex align-items-center justify-content-between mt-5">
                     <div class="left">
-                        <b-link class="icon message" href="#contact"></b-link>
+                        <a class="icon message" href="#contact"></a>
                     </div>
                     <div class="right d-flex">
-                        <b-link class="icon pdf ml-3" target="_blank" href="/Resume.pdf"></b-link>
-                        <b-link class="icon github ml-3" target="_blank" href="https://github.com/Nati43"></b-link>
-                        <b-link class="icon linkedin ml-3" target="_blank" href="https://www.linkedin.com/in/natnael-meseret-a195b8141"></b-link>
+                        <a class="icon pdf ml-3" target="_blank" rel="noopener noreferrer" href="/Resume.pdf"></a>
+                        <a class="icon github ml-3" target="_blank" rel="noopener noreferrer" href="https://github.com/Nati43"></a>
+                        <a class="icon linkedin ml-3" target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/natnael-meseret-a195b8141"></a>
                     </div>
                 </div>
             </div>
-        </b-card>
+        </div>
 
-        <b-card style="z-index:2"
-            class="border-0 p-0 m-0 rounded-0 flex-grow-1 right-card d-none d-md-flex"
-            no-body >
-        </b-card>
+        <div style="z-index:2"
+            class="card bg-transparent border-0 p-0 m-0 rounded-0 flex-grow-1 right-card d-none d-md-flex">
+        </div>
     </div>
 </template>
 
-<script>
-/* eslint-disable */
-export default {
-    data: ()=> {
-        return {
-            typed: [
-                "building something great.", 
-                "writing efficient code.", 
-                "coming up with innovative solutions.",
-            ]
-        }
-    },
-    mounted() {
-        var self = this;
-        var item = 0;
+<script setup>
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 
-        function typeWriter() {
-            if (document.getElementById("typed").innerHTML.length < self.typed[item].length) {
-                document.getElementById("typed").innerHTML += self.typed[item].charAt(document.getElementById("typed").innerHTML.length);
-                setTimeout(typeWriter, 100);
-            }else{
-                setTimeout(clear, 3000);
-            }
-        }
-        typeWriter();
+const phrases = [
+  "building something great.", 
+  "writing efficient code.", 
+  "coming up with innovative solutions."
+];
 
-        function clear() {
-            if (document.getElementById("typed").innerHTML.length > 0) {
-                document.getElementById("typed").innerHTML = document.getElementById("typed").innerHTML.substring(0, document.getElementById("typed").innerHTML.length-1);
-                setTimeout(clear, 50);
-            }else{
-                item++;
-                if(item>self.typed.length-1) item=0;
-                setTimeout(typeWriter, 100);
-            }
-        }
-    }
+const typedText = ref('');
+let itemIdx = 0;
+let charIdx = 0;
+let timeoutId = null;
+
+function typeWriter() {
+  const currentPhrase = phrases[itemIdx];
+  if (charIdx < currentPhrase.length) {
+    typedText.value += currentPhrase.charAt(charIdx);
+    charIdx++;
+    timeoutId = setTimeout(typeWriter, 100);
+  } else {
+    timeoutId = setTimeout(clearText, 3000);
+  }
 }
+
+function clearText() {
+  if (typedText.value.length > 0) {
+    typedText.value = typedText.value.substring(0, typedText.value.length - 1);
+    timeoutId = setTimeout(clearText, 50);
+  } else {
+    charIdx = 0;
+    itemIdx = (itemIdx + 1) % phrases.length;
+    timeoutId = setTimeout(typeWriter, 100);
+  }
+}
+
+onMounted(() => {
+  typeWriter();
+});
+
+onBeforeUnmount(() => {
+  if (timeoutId) clearTimeout(timeoutId);
+});
 </script>
 
-<style scoped>
+<style>
 @keyframes smoke1 {
     0% {
         opacity: 1;
@@ -177,11 +179,11 @@ export default {
     color: var(--intro-fg);
 }
 .right-card {
-    background-image: url('../assets/mugshot.jpeg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    background-blend-mode:luminosity;
+    background-image: url('~/assets/mugshot.jpeg');
+    mix-blend-mode:luminosity;
     min-width: 400px;
 }
 .name {
@@ -214,16 +216,16 @@ export default {
     transform: scale(1.25);
 }
 .icon.message {
-    background-image: url('../assets/icons/message.svg');
+    background-image: url('~/assets/icons/message.svg');
 }
 .icon.linkedin {
-    background-image: url('../assets/icons/linkedin.svg');
+    background-image: url('~/assets/icons/linkedin.svg');
 }
 .icon.github {
-    background-image: url('../assets/icons/github.svg');
+    background-image: url('~/assets/icons/github.svg');
 }
 .icon.pdf {
-    background-image: url('../assets/icons/download.svg');
+    background-image: url('~/assets/icons/download.svg');
 }
 
 .pdf {
@@ -251,7 +253,6 @@ export default {
     100% { transform: scale(1,1)      translateY(0); }
 }
 
-/* Small devices (landscape phones, 576px and up) */
 @media (min-width: 310px) {
     .icons {
         display: none !important;
@@ -262,7 +263,7 @@ export default {
         min-height: 30vw;
         max-height: 30vw;
         border-radius: .5em;
-        background-image: url('../assets/mugshot.jpeg');
+        background-image: url('~/assets/mugshot.jpeg');
         background-position: top;
         background-repeat: no-repeat;
         background-size: cover;
@@ -270,7 +271,6 @@ export default {
     }
 }
 
-/* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) { 
     .icons {
         display: flex !important;
@@ -280,7 +280,6 @@ export default {
     }
 }
 
-/* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
     .name,
     .title {
